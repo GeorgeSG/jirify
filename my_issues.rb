@@ -3,7 +3,7 @@ require 'colorize'
 
 require_relative 'jira_config.rb'
 
-def print_my_issues(short, chosen_status)
+def print_my_issues(verbose, chosen_status)
   client = JIRA::Client.new(JiraConfig::CLIENT_OPTIONS)
   project = JiraConfig::OPTIONS['project']
   my_issues = client.Issue.jql("project=#{project} AND sprint in openSprints() AND assignee='#{JiraConfig::OPTIONS["username"]}'")
@@ -22,10 +22,10 @@ def print_my_issues(short, chosen_status)
       else status_justified
     end
 
-    if short
-      print "#{issue.key.ljust(7)}: (#{JiraConfig::ISSUE_BROWSE_URL}#{issue.key})\n"
-    else
+    if verbose
       print "#{status_colorized} #{issue.key.ljust(7)}: #{issue.summary} (#{JiraConfig::ISSUE_BROWSE_URL}#{issue.key})\n"
+    else
+      print "#{issue.key.ljust(7)}: (#{JiraConfig::ISSUE_BROWSE_URL}#{issue.key})\n"
     end
   end
 end

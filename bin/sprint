@@ -10,9 +10,13 @@ OptionParser.new do |opts|
     options[:columns] = a
   end
 
+  opts.on("-m", "--mine", "Show only issues assigned to me") do |m|
+    options[:mine] = m
+  end
+
   opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
     options[:verbose] = v
   end
 end.parse!
 
-print_current_sprint(options[:verbose], options[:columns])
+print_current_sprint(options[:verbose], options[:columns], options[:mine])

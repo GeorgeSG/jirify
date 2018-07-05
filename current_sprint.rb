@@ -5,7 +5,7 @@ require 'json'
 
 require_relative 'jira_config.rb'
 
-def print_current_sprint(verbose = false, all_columns = false)
+def print_current_sprint(verbose = false, all_columns = false, only_mine = false)
   client = JIRA::Client.new(JiraConfig::CLIENT_OPTIONS)
 
   project = JiraConfig::OPTIONS['project']
@@ -14,8 +14,9 @@ def print_current_sprint(verbose = false, all_columns = false)
   labels = labels.join(", ") if labels
 
   labels_clause = "AND labels in (#{labels})" if labels
+  mine_clause = "AND assignee='#{JiraConfig::OPTIONS["username"]}'" if only_mine
 
-  issues = client.Issue.jql("project='#{project}' AND sprint in openSprints() #{labels_clause}", { max_results: 200 })
+  issues = client.Issue.jql("project='#{project}' AND sprint in openSprints() #{labels_clause} #{mine_clause}", { max_results: 200 })
 
   if all_columns
     grouped_issues = issues.group_by { |issue| issue.status.name }

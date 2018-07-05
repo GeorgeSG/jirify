@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 require_relative '../current_sprint.rb'
-print_current_sprint(true)
+print_current_sprint(ARGV.first)

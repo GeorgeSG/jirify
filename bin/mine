@@ -10,19 +10,23 @@ OptionParser.new do |opts|
     options[:verbose] = v
   end
 
-  opts.on("-i", "--in-progress", "Show only issues in progress") do |v|
+  opts.on("-a", "--all", "Show all assigned issues in Project - not limited to sprint") do |a|
+    options[:all] = a
+  end
+
+  opts.on("-i", "--in-progress", "Show only issues in progress") do |i|
     options[:status] = "In Progress"
   end
 
-  opts.on("-r", "--in-review", "Show only issues in review") do |v|
+  opts.on("-r", "--in-review", "Show only issues in review") do |r|
     options[:status] = "In Review"
   end
 
-  opts.on("-c", "--closed", "Show only closed issues") do |v|
+  opts.on("-c", "--closed", "Show only closed issues") do |c|
     options[:status] = "Closed"
   end
 
-  opts.on("-t", "--todo", "Show only issues in todo") do |v|
+  opts.on("-t", "--todo", "Show only issues in todo") do |t|
     options[:status] = "To Do"
   end
 
@@ -31,4 +35,4 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-print_my_issues(options[:verbose], options[:status])
+print_my_issues(options[:verbose], options[:status], options[:all])

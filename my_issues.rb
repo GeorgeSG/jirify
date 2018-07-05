@@ -3,11 +3,13 @@ require 'colorize'
 
 require_relative 'jira_config.rb'
 
-def print_my_issues(verbose, chosen_status)
+def print_my_issues(verbose, chosen_status, all = false)
   client = JIRA::Client.new(JiraConfig::CLIENT_OPTIONS)
   project = JiraConfig::OPTIONS['project']
-  my_issues = client.Issue.jql("project=#{project} AND sprint in openSprints() AND assignee='#{JiraConfig::OPTIONS["username"]}'")
+  all_clause = "AND sprint in openSprints() " unless all
+  my_issues = client.Issue.jql("project=#{project} #{all_clause}AND assignee='#{JiraConfig::OPTIONS["username"]}'")
 
+  my_issues.sort_by! { |issue| issue.status.name }
   my_issues.each do |issue|
     status = issue.status.name
 

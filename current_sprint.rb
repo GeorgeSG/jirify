@@ -15,7 +15,7 @@ def print_current_sprint(verbose = false)
 
   labels_clause = "AND labels in (#{labels})" if labels
 
-  issues = client.Issue.jql("project=#{project} AND sprint in openSprints() #{labels_clause}", { max_results: 200 })
+  issues = client.Issue.jql("project='#{project}' AND sprint in openSprints() #{labels_clause}", { max_results: 200 })
 
   grouped_issues = issues.group_by { |issue| issue.status.name }
   all_groups = grouped_issues.values

@@ -1,3 +1,14 @@
 #!/usr/bin/env ruby
+require 'optparse'
 require_relative '../current_sprint.rb'
-print_current_sprint(ARGV.first)
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: mine.rb [options]"
+
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+end.parse!
+
+print_current_sprint(options[:verbose])

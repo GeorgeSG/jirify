@@ -1,3 +1,34 @@
 #!/usr/bin/env ruby
+require 'optparse'
 require_relative '../my_issues.rb'
-print_my_issues
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: mine.rb [options]"
+
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+
+  opts.on("-i", "--in-progress", "Show only issues in progress") do |v|
+    options[:status] = "In Progress"
+  end
+
+  opts.on("-r", "--in-review", "Show only issues in review") do |v|
+    options[:status] = "In Review"
+  end
+
+  opts.on("-c", "--closed", "Show only closed issues") do |v|
+    options[:status] = "Closed"
+  end
+
+  opts.on("-t", "--todo", "Show only issues in todo") do |v|
+    options[:status] = "Todo"
+  end
+
+  opts.on("-s", "--status STATUS", "Show only issues with selected status") do |s|
+    options[:status] = s
+  end
+end.parse!
+
+print_my_issues(options[:verbose], options[:status])

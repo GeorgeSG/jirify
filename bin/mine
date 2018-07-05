@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require_relative '../my_issues.rb'
+print_my_issues

@@ -1,0 +1,35 @@
+require 'jira-ruby'
+require 'colorize'
+require 'terminal-table'
+
+require_relative 'jira_config.rb'
+
+def print_current_sprint(verbose = false)
+  client = JIRA::Client.new(JiraConfig::CLIENT_OPTIONS)
+
+  project = JiraConfig::OPTIONS['project']
+  issues = client.Issue.jql("project=#{project} AND sprint in openSprints() AND labels=DPBG", { max_results: 200 })
+
+  grouped_issues = issues.group_by { |issue| issue.status.name }
+  all_groups = grouped_issues.values
+
+  l = all_groups.map(&:length).max
+  transposed = all_groups.map{ |e| e.values_at(0...l) }.transpose
+
+  transposed = transposed.map do |row|
+    row.map do |issue|
+      if issue
+        key = issue.key.ljust(7)
+        url = "(#{JiraConfig::ISSUE_BROWSE_URL}/#{issue.key})".blue
+        summary = "#{issue.summary[0, 35]}...\n" if verbose
+        "#{key}: #{summary}#{url}"
+      else
+        ""
+      end
+    end
+  end
+
+  table = Terminal::Table.new headings: grouped_issues.keys, rows: transposed
+
+  puts table
+end

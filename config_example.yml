@@ -1,0 +1,5 @@
+options:
+  username: <username without domain>
+  token: <api token>
+  site: <url to jira>
+  project: <jira project key>

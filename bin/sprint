@@ -6,9 +6,13 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: mine.rb [options]"
 
+  opts.on("-a", "--all-columns", "Show all columns") do |a|
+    options[:columns] = a
+  end
+
   opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
     options[:verbose] = v
   end
 end.parse!
 
-print_current_sprint(options[:verbose])
+print_current_sprint(options[:verbose], options[:columns])

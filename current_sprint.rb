@@ -5,7 +5,7 @@ require 'json'
 
 require_relative 'jira_config.rb'
 
-def print_current_sprint(verbose = false)
+def print_current_sprint(verbose = false, all_columns = false)
   client = JIRA::Client.new(JiraConfig::CLIENT_OPTIONS)
 
   project = JiraConfig::OPTIONS['project']
@@ -17,7 +17,7 @@ def print_current_sprint(verbose = false)
 
   issues = client.Issue.jql("project='#{project}' AND sprint in openSprints() #{labels_clause}", { max_results: 200 })
 
-  if verbose
+  if all_columns
     grouped_issues = issues.group_by { |issue| issue.status.name }
   else
     grouped_issues = issues.group_by { |issue| issue.status.statusCategory['name'] }

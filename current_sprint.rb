@@ -1,6 +1,7 @@
 require 'jira-ruby'
 require 'colorize'
 require 'terminal-table'
+require 'json'
 
 require_relative 'jira_config.rb'
 
@@ -8,7 +9,13 @@ def print_current_sprint(verbose = false)
   client = JIRA::Client.new(JiraConfig::CLIENT_OPTIONS)
 
   project = JiraConfig::OPTIONS['project']
-  issues = client.Issue.jql("project=#{project} AND sprint in openSprints() AND labels=DPBG", { max_results: 200 })
+
+  labels = JiraConfig::OPTIONS['filter_by_labels']
+  labels = labels.join(", ") if labels
+
+  labels_clause = "AND labels in (#{labels})" if labels
+
+  issues = client.Issue.jql("project=#{project} AND sprint in openSprints() #{labels_clause}", { max_results: 200 })
 
   grouped_issues = issues.group_by { |issue| issue.status.name }
   all_groups = grouped_issues.values

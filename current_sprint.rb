@@ -44,5 +44,5 @@ def print_current_sprint(verbose = false, all_columns = false, only_mine = false
 
   table = Terminal::Table.new headings: grouped_issues.keys, rows: transposed
 
-  puts table
+  puts table unless transposed.empty?
 end

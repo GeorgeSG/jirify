@@ -4,7 +4,7 @@ require_relative '../current_sprint.rb'
 
 options = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: mine.rb [options]"
+  opts.banner = "Usage: sprint.rb [options]"
 
   opts.on("-a", "--all-columns", "Show all columns") do |a|
     options[:columns] = a

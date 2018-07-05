@@ -23,7 +23,7 @@ OptionParser.new do |opts|
   end
 
   opts.on("-t", "--todo", "Show only issues in todo") do |v|
-    options[:status] = "Todo"
+    options[:status] = "To Do"
   end
 
   opts.on("-s", "--status STATUS", "Show only issues with selected status") do |s|

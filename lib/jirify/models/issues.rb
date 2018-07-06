@@ -23,9 +23,9 @@ module Jirify
           end
 
           if verbose
-            print "#{status_colorized} #{issue.key.ljust(7)}: #{issue.summary} (#{Config.issue_browse_url}#{issue.key})\n"
+            puts "#{status_colorized} #{issue.key.ljust(7)}: #{issue.summary} (#{Config.issue_browse_url}#{issue.key})"
           else
-            print "#{issue.key.ljust(7)}: (#{Config.issue_browse_url}#{issue.key})\n"
+            puts "#{issue.key.ljust(7)}: (#{Config.issue_browse_url}#{issue.key})"
           end
         end
       end

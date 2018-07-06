@@ -1,9 +1,7 @@
-# jira-cli
-A bunch of dummy scripts that help me work with JIRA
+# jirify
+A simple ruby gem that helps me work with jira
 
 # How to use
-2. Run `bundle install`
-3. Execute scripts from `bin` folder:
-
-- `mine` lists all tasks assigned to your user from the currently active sprints in the configured Project
-- `sprint` lists all tssk from the currently active sprints in the configured Project
+1. Run `gem install jirify`.
+1. Execute `jira setup` and go through the setup process.
+1. Execute `jira` and `jira <command> help` to learn about available commands. If you had the previous `config.yml` file you can just do `mv config.yml ~/.jirify`

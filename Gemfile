@@ -1,7 +1,8 @@
 source "http://rubygems.org"
 
+gemspec
+
 group :development do
-  gem 'jira-ruby'
-  gem 'colorize'
-  gem 'terminal-table'
+  gem 'rake'
+  gem 'rake-release'
 end

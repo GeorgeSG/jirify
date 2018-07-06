@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'jirify'
+
+Jirify::CLI.start

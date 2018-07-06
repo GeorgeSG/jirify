@@ -1,7 +1,0 @@
-options:
-  username: <username without domain>
-  token: <api token>
-  site: <url to jira>
-  project: <jira project key>
-  filter_by_labels: <array of labels to filter by>
-

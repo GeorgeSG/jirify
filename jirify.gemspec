@@ -1,8 +1,10 @@
 $:.push File.expand_path("../lib", __FILE__)
 
+require "jirify/version"
+
 Gem::Specification.new do |s|
   s.name        = 'jirify'
-  s.version     = 0
+  s.version     = Jirify::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Georgi Gardev']
   s.email       = 'georgi@gardev.com'

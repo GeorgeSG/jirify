@@ -61,15 +61,17 @@ module Jirify
 
     class << self
       def list_mine(verbose, statuses = [], all = false)
-        my_issues = client.Issue.jql my_issues_jql(all)
-        my_issues.map!     { |issue| Issue.new issue }
-        my_issues.sort_by! { |issue| issue.status.name }
+        my_issues = find_mine(all).sort_by { |issue| issue.status.name }
 
         my_issues.select! do |issue|
           statuses.empty? || statuses.any? { |status| issue.status? status }
         end
 
         my_issues.each { |issue| issue.print verbose }
+      end
+
+      def find_mine(all)
+        client.Issue.jql(my_issues_jql(all)).map { |issue| Issue.new issue }
       end
 
       def find_by_id(issue_id)

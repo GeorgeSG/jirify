@@ -1,0 +1,9 @@
+Documentation:
+  Enabled: false
+
+# Oops ¯\_(ツ)_/¯
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 25

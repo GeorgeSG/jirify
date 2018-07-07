@@ -1,6 +1,6 @@
-$:.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path('lib', __dir__)
 
-require "jirify/version"
+require 'jirify/version'
 
 Gem::Specification.new do |s|
   s.name        = 'jirify'
@@ -13,12 +13,12 @@ Gem::Specification.new do |s|
   s.description = 'JIRA for your terminal'
   s.license     = 'MIT'
 
-  s.files       = Dir.glob("{bin,lib}/**/*") + %w(README.md)
+  s.files       = Dir.glob('{bin,lib}/**/*') + %w[README.md]
   s.executables = ['jira']
   s.require_paths = ['lib']
 
-  s.add_dependency 'jira-ruby', '~> 1.5'
   s.add_dependency 'colorize', '~> 0.8'
+  s.add_dependency 'jira-ruby', '~> 1.5'
   s.add_dependency 'terminal-table', '~> 1.8'
   s.add_dependency 'thor', '~> 0.20'
 end

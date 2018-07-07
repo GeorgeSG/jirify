@@ -6,6 +6,7 @@ module Jirify
       default_task :mine
 
       desc 'mine', 'List all of the issues assigned to you in the current sprint'
+      method_option :key_only, type: :boolean, aliases: '-k', desc: 'Show only issue keys'
       method_option :in_progress, type: :boolean, aliases: '-i', desc: 'Show only issues in progress'
       method_option :in_review, type: :boolean, aliases: '-r', desc: 'Show only issues in review'
       method_option :closed, type: :boolean, aliases: '-c', desc: 'Show only closed issues'
@@ -27,7 +28,13 @@ module Jirify
       def mine
         statuses = build_issue_statuses(options)
         issues = Jirify::Issue.list_mine(statuses, options[:all])
-        issues.each { |issue| issue.print Config.always_verbose || options[:verbose] }
+        issues.each do |issue|
+          if options[:key_only]
+            puts issue.key
+          else
+            issue.print Config.always_verbose || options[:verbose]
+          end
+        end
       end
 
       desc 'open [ISSUE]', 'Opens an issue in your browser'

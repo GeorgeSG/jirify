@@ -2,8 +2,30 @@ require 'colorize'
 
 module Jirify
   class Issue < Base
+    def initialize(issue)
+      @issue = issue
+    end
+
+    def mine?
+      !@issue.assignee.nil? && @issue.assignee.emailAddress == Config.username
+    end
+
+    def todo?
+      @issue.status.name == Config.statuses['todo']
+    end
+
+    def start!
+      puts "starting #{@issue.summary}..."
+      # @issue.save! status: Status.in_progress
+    end
+
+    def close!
+      puts "closing #{@issue.summary}..."
+      # @issue.save! status: Status.closed
+    end
+
     class << self
-      def mine(verbose, statuses = [], all = false)
+      def list_mine(verbose, statuses = [], all = false)
         my_issues = client.Issue.jql my_issues_jql(all)
         my_issues.sort_by! { |issue| issue.status.name }
 
@@ -16,17 +38,7 @@ module Jirify
       end
 
       def find_by_id(issue_id)
-        client.Issue.find(issue_id)
-      end
-
-      def start!(issue)
-        puts "starting #{issue.summary}..."
-        # issue.save! status: Status.in_progress
-      end
-
-      def close!(issue)
-        puts "closing #{issue.summary}..."
-        # issue.save! status: Status.closed
+        Issue.new client.Issue.find(issue_id)
       end
 
       protected

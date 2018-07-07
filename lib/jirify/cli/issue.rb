@@ -29,18 +29,18 @@ module Jirify
         statuses << 'Closed'      if options[:closed]
       end
 
-      Jirify::Issue.mine(options[:verbose], statuses, options[:all])
+      Jirify::Issue.list_mine(options[:verbose], statuses, options[:all])
     end
 
     desc 'start ISSUE', 'Moves an issue to "In Progress"'
     def start(issue_id)
       issue = Jirify::Issue.find_by_id(issue_id)
 
-      if issue.assignee.nil? || issue.assignee.emailAddress != Config.username
+      unless issue.mine?
         exit(0) unless yes? 'WARNING! This ticket is not assigned to you! Are you sure you want to continue? [Y/n]:'
       end
 
-      if issue.status.name != Config.statuses['todo']
+      unless issue.todo?
         exit(0) unless yes? "WARNING! This issue is not in status \"#{Config.statuses['todo']}\"! "\
           'Are you sure you want to continue? [Y/n]:'
       end

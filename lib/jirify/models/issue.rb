@@ -1,13 +1,11 @@
-require 'colorize'
-
 module Jirify
   class Issue < Base
-    def initialize(issue)
-      @issue = issue
-    end
-
     def mine?
       !assignee.nil? && assignee.emailAddress == Config.username
+    end
+
+    def status
+      @status ||= Jirify::Status.new @entity.status
     end
 
     def todo?
@@ -29,34 +27,13 @@ module Jirify
     end
 
     def print(verbose)
-      status_justified = "(#{status.name})".rjust(14)
-      status_colorized = case status.name
-                         when Config.statuses['done']        then status_justified.green
-                         when Config.statuses['in_progress'] then status_justified.blue
-                         when Config.statuses['in_review']   then status_justified.yellow
-                         when Config.statuses['todo']        then status_justified.black
-                         else                                     status_justified
-                         end
-
-      url = "#{Config.issue_browse_url}#{key}"
+      url = "#{Config.issue_browse_url}#{key}".blue
 
       if verbose
-        puts "#{status_colorized} #{key.ljust(7)}: #{summary} (#{url})"
+        puts "#{status.pretty_name} #{key.ljust(7)}: #{summary} (#{url})"
       else
         puts "#{key.ljust(7)}: (#{url})"
       end
-    end
-
-    def method_missing(method, *args, &_block)
-      if @issue.respond_to? method
-        @issue.send method, *args
-      else
-        super
-      end
-    end
-
-    def respond_to_missing?(method, *)
-      @issue.respond_to? method
     end
 
     class << self

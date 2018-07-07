@@ -1,4 +1,3 @@
-require 'colorize'
 require 'terminal-table'
 require 'json'
 

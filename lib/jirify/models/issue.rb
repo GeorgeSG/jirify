@@ -4,10 +4,9 @@ module Jirify
   class Issue < Base
     class << self
       def mine(verbose, statuses = [], all = false)
-        all_clause = 'AND sprint in openSprints()' unless all
-        my_issues = client.Issue.jql("project='#{project}' #{all_clause} AND assignee='#{Config.username}'")
-
+        my_issues = client.Issue.jql my_issues_jql(all)
         my_issues.sort_by! { |issue| issue.status.name }
+
         my_issues.each do |issue|
           status = issue.status.name
           next if statuses.any? && !statuses.include?(status)
@@ -20,12 +19,17 @@ module Jirify
         client.Issue.find(issue_id)
       end
 
-      def start(issue)
+      def start!(issue)
         puts "starting #{issue.summary}..."
         puts '... to be implemented ...'
       end
 
       protected
+
+      def my_issues_jql(all_issues)
+        all_clause = 'AND sprint in openSprints()' unless all_issues
+        "project='#{project}' #{all_clause} AND assignee='#{Config.username}'"
+      end
 
       def print_issue(issue, verbose)
         status = issue.status.name

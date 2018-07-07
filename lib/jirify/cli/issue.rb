@@ -23,16 +23,16 @@ module Jirify
         statuses = [options[:status]]
       else
         statuses = []
-        statuses << 'To Do' if options[:todo]
+        statuses << 'To Do'       if options[:todo]
         statuses << 'In Progress' if options[:in_progress]
-        statuses << 'In Review' if options[:in_review]
-        statuses << 'Closed' if options[:closed]
+        statuses << 'In Review'   if options[:in_review]
+        statuses << 'Closed'      if options[:closed]
       end
 
       Jirify::Issue.mine(options[:verbose], statuses, options[:all])
     end
 
-    desc 'start ISSUE', 'Start an issue that\'s currently To Do'
+    desc 'start ISSUE', 'Moves an issue to "In Progress"'
     def start(issue_id)
       issue = Jirify::Issue.find_by_id(issue_id)
 
@@ -40,11 +40,12 @@ module Jirify
         exit(0) unless yes? 'WARNING! This ticket is not assigned to you! Are you sure you want to continue? [Y/n]:'
       end
 
-      if issue.status.name != 'To Do'
-        exit(0) unless yes? 'WARNING! This issue is not in status "To Do"! Are you sure you want to continue? [Y/n]:'
+      if issue.status.name != Config.statuses['todo']
+        exit(0) unless yes? "WARNING! This issue is not in status \"#{Config.statuses['todo']}\"! "\
+            'Are you sure you want to continue? [Y/n]:'
       end
 
-      Jirify::Issue.start(issue)
+      Jirify::Issue.start!(issue)
     rescue JIRA::HTTPError
       puts "Unable to find issue #{issue_id}."
     end

@@ -42,7 +42,7 @@ module Jirify
 
       if issue.status.name != Config.statuses['todo']
         exit(0) unless yes? "WARNING! This issue is not in status \"#{Config.statuses['todo']}\"! "\
-            'Are you sure you want to continue? [Y/n]:'
+          'Are you sure you want to continue? [Y/n]:'
       end
 
       Jirify::Issue.start!(issue)

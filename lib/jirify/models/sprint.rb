@@ -37,9 +37,10 @@ module Jirify
         transposed = transposed.map do |row|
           row.map do |issue|
             if issue
-              key = issue.key.ljust(7)
-              url = "(#{Config.issue_browse_url}/#{issue.key})".blue
+              key     = issue.key.ljust(7)
+              url     = "(#{Config.issue_browse_url}/#{issue.key})".blue
               summary = "#{issue.summary[0, 35]}...\n" if verbose
+
               "#{key}: #{summary}#{url}"
             else
               ''

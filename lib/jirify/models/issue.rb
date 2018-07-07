@@ -21,7 +21,12 @@ module Jirify
 
       def start!(issue)
         puts "starting #{issue.summary}..."
-        puts '... to be implemented ...'
+        # issue.save! status: Status.in_progress
+      end
+
+      def close!(issue)
+        puts "closing #{issue.summary}..."
+        # issue.save! status: Status.closed
       end
 
       protected

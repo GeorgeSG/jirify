@@ -3,6 +3,7 @@ module Jirify
     def pretty_name
       justified = "(#{name})".rjust(longest_status_name + 2)
       case name
+      when Config.statuses['blocked']     then justified.red
       when Config.statuses['done']        then justified.green
       when Config.statuses['in_progress'] then justified.blue
       when Config.statuses['in_review']   then justified.yellow

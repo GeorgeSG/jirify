@@ -5,6 +5,10 @@ module JIRA
         attrs = { transition: transition.id }.to_json
         client.send(:post, "#{url}/transitions", attrs)
       end
+
+      def assign_to!(username)
+        client.send(:put, "#{url}/assignee", { name: username }.to_json)
+      end
     end
   end
 end
@@ -17,19 +21,23 @@ module Jirify
       !assignee.nil? && assignee.emailAddress == Config.username
     end
 
+    def assign_to_me!
+      @entity.assign_to!(Config.username.split('@')[0])
+    end
+
     def status
       @status ||= Jirify::Status.new @entity.status
+    end
+
+    def status?(status_name)
+      status_name = status_name.to_s if status_name.is_a? Symbol
+      status.name == status_name
     end
 
     Config.statuses.keys.each do |status_key|
       define_method "#{status_key.to_sym}?" do
         status.name == Config.statuses[status_key]
       end
-    end
-
-    def status?(status_name)
-      status_name = status_name.to_s if status_name.is_a? Symbol
-      status.name == status_name
     end
 
     def transitions(reload = false)

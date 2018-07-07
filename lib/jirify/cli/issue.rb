@@ -8,6 +8,7 @@ module Jirify
       method_option :in_review, type: :boolean, aliases: '-r', desc: 'Show only issues in review'
       method_option :closed, type: :boolean, aliases: '-c', desc: 'Show only closed issues'
       method_option :todo, type: :boolean, aliases: '-t', desc: 'Show only issues in todo'
+      method_option :blocked, type: :boolean, aliases: '-b', desc: 'Show only blocked issues'
       method_option :all,
                     type: :boolean,
                     aliases: '-a',
@@ -25,6 +26,25 @@ module Jirify
         statuses = build_issue_statuses(options)
         issues = Jirify::Issue.list_mine(statuses, options[:all])
         issues.each { |issue| issue.print options[:verbose] }
+      end
+
+      desc 'assignee [ISSUE]', 'Displays issue assignee'
+      def assignee(issue_id)
+        issue = Jirify::Issue.find_by_id(issue_id)
+
+        if issue.assignee.nil?
+          puts "Unassigned".red
+        else
+          puts issue.assignee.name
+        end
+      end
+
+      desc 'take [ISSUE]', 'Assigns an issue to you'
+      def take(issue_id)
+        issue = Jirify::Issue.find_by_id(issue_id)
+
+        puts "Assigning #{issue.key} to #{Config.username}..."
+        issue.assign_to_me!
       end
 
       desc 'status [ISSUE]', 'Displays issue status'
@@ -150,6 +170,7 @@ module Jirify
           statuses = [options[:status]]
         else
           statuses = []
+          statuses << Config.statuses['blocked']     if options[:blocked]
           statuses << Config.statuses['todo']        if options[:todo]
           statuses << Config.statuses['in_progress'] if options[:in_progress]
           statuses << Config.statuses['in_review']   if options[:in_review]

@@ -30,7 +30,7 @@ module Jirify
         issues.each { |issue| issue.print Config.always_verbose || options[:verbose] }
       end
 
-      desc 'open [ISSUE]', 'Open an issue in your browser'
+      desc 'open [ISSUE]', 'Opens an issue in your browser'
       def open(issue_id)
         issue = get_issue_or_exit issue_id
         Launchy.open("#{Config.issue_browse_url}#{issue_id}")
@@ -40,7 +40,7 @@ module Jirify
       # Issue Assignee commands #
       #-------------------------#
 
-      desc 'assignee [ISSUE]', 'Displays issue assignee'
+      desc 'assignee [ISSUE]', 'Display issue assignee'
       def assignee(issue_id)
         issue = get_issue_or_exit issue_id
 
@@ -64,7 +64,7 @@ module Jirify
         issue.unassign!
       end
 
-      desc 'take [ISSUE]', 'Assigns an issue to you'
+      desc 'take [ISSUE]', 'Assign an issue to you'
       def take(issue_id)
         issue = get_issue_or_exit issue_id
 
@@ -76,14 +76,14 @@ module Jirify
       # Issue Status commands #
       #-----------------------#
 
-      desc 'status [ISSUE]', 'Displays issue status'
+      desc 'status [ISSUE]', 'Display issue status'
       def status(issue_id)
         issue = get_issue_or_exit issue_id
 
         puts issue.status.name
       end
 
-      desc 'transitions [ISSUE]', 'Displays available transitions'
+      desc 'transitions [ISSUE]', 'Display available transitions'
       def transitions(issue_id)
         issue = get_issue_or_exit issue_id
 
@@ -115,7 +115,7 @@ module Jirify
         issue.block!
       end
 
-      desc 'unblock [ISSUE]', 'Unblocks an issue'
+      desc 'unblock [ISSUE]', 'Unblock an issue'
       def unblock(issue_id)
         issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
@@ -128,7 +128,7 @@ module Jirify
         end
       end
 
-      desc 'todo [ISSUE]', "Moves an issue to #{Config.statuses['todo']}"
+      desc 'todo [ISSUE]', "Move an issue to #{Config.statuses['todo']}"
       def todo(issue_id)
         issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
@@ -145,7 +145,7 @@ module Jirify
         end
       end
 
-      desc 'start [ISSUE]', "Moves an issue to #{Config.statuses['in_progress']}"
+      desc 'start [ISSUE]', "Move an issue to #{Config.statuses['in_progress']}"
       def start(issue_id)
         issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
@@ -160,7 +160,7 @@ module Jirify
         end
       end
 
-      desc 'review [ISSUE]', "Moves an issue to #{Config.statuses['in_review']}"
+      desc 'review [ISSUE]', "Move an issue to #{Config.statuses['in_review']}"
       def review(issue_id)
         issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
@@ -178,7 +178,7 @@ module Jirify
         issue.start_review!
       end
 
-      desc 'close [ISSUE]', "Moves an issue to #{Config.statuses['done']}"
+      desc 'close [ISSUE]', "Move an issue to #{Config.statuses['done']}"
       def close(issue_id)
         issue = get_issue_or_exit issue_id
         check_assigned_to_self issue

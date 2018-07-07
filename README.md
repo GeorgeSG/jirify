@@ -4,6 +4,7 @@ A simple ruby gem that helps me work with jira
 ## Installation
 1. Run `gem install jirify`.
 1. Execute `jira setup` and go through the setup process.
+1. Optionally source `$HOME/.jirify/jirify.bash_completion.sh` to have autocomplete in bash.
 1. Execute `jira` and `jira <command> help` to learn about available commands.
 
 ## Config Explained

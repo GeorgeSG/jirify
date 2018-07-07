@@ -45,7 +45,7 @@ module Jirify
           'Are you sure you want to continue? [Y/n]:'
       end
 
-      Jirify::Issue.start!(issue)
+      issue.start!
     rescue JIRA::HTTPError
       puts "Unable to find issue #{issue_id}."
     end

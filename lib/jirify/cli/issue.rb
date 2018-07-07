@@ -1,3 +1,5 @@
+require 'launchy'
+
 module Jirify
   module Subcommands
     class Issues < Thor
@@ -27,6 +29,16 @@ module Jirify
         issues = Jirify::Issue.list_mine(statuses, options[:all])
         issues.each { |issue| issue.print Config.always_verbose || options[:verbose] }
       end
+
+      desc 'open [ISSUE]', 'Open an issue in your browser'
+      def open(issue_id)
+        issue = get_issue_or_exit issue_id
+        Launchy.open("#{Config.issue_browse_url}#{issue_id}")
+      end
+
+      #-------------------------#
+      # Issue Assignee commands #
+      #-------------------------#
 
       desc 'assignee [ISSUE]', 'Displays issue assignee'
       def assignee(issue_id)
@@ -59,6 +71,10 @@ module Jirify
         puts "Assigning #{issue.key} to #{Config.username}..."
         issue.assign_to_me!
       end
+
+      #-----------------------#
+      # Issue Status commands #
+      #-----------------------#
 
       desc 'status [ISSUE]', 'Displays issue status'
       def status(issue_id)

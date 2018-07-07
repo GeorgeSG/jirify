@@ -31,11 +31,11 @@ module Jirify
     def print(verbose)
       status_justified = "(#{status.name})".rjust(14)
       status_colorized = case status.name
-                         when 'Done'        then status_justified.green
-                         when 'In Progress' then status_justified.blue
-                         when 'In Review'   then status_justified.yellow
-                         when 'Closed'      then status_justified.black
-                         else                    status_justified
+                         when Config.statuses['done']        then status_justified.green
+                         when Config.statuses['in_progress'] then status_justified.blue
+                         when Config.statuses['in_review']   then status_justified.yellow
+                         when Config.statuses['todo']        then status_justified.black
+                         else                                     status_justified
                          end
 
       url = "#{Config.issue_browse_url}#{key}"

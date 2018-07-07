@@ -27,16 +27,16 @@ module Jirify
       puts "Current Jirify version: #{VERSION}"
     end
 
-    desc 'setup SUBCOMMAND', 'Jirify setup tools'
+    desc 'setup [SUBCOMMAND]', 'Jirify setup tools'
     subcommand 'setup', Subcommands::Setup
 
-    desc 'i SUBCOMMAND', 'Alias for <jira issues>'
+    desc 'i [SUBCOMMAND]', 'Alias for <jira issues>'
     subcommand 'i', Subcommands::Issues
 
-    desc 'issues SUBCOMMAND', 'Work with JIRA Issues'
+    desc 'issues [SUBCOMMAND]', 'Work with JIRA Issues'
     subcommand 'issues', Subcommands::Issues
 
-    desc 'projects SUBCOMMAND', 'Work with JIRA Projects'
+    desc 'projects [SUBCOMMAND]', 'Work with JIRA Projects'
     subcommand 'projects', Subcommands::Projects
   end
 end

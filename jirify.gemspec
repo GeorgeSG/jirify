@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'colorize', '~> 0.8'
   s.add_dependency 'jira-ruby', '~> 1.5'
+  s.add_dependency 'launchy', '~> 2.4'
   s.add_dependency 'terminal-table', '~> 1.8'
   s.add_dependency 'thor', '~> 0.20'
-  s.add_dependency 'launchy', '~> 2.4'
 end

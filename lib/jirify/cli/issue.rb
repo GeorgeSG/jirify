@@ -32,7 +32,7 @@ module Jirify
 
       desc 'open [ISSUE]', 'Opens an issue in your browser'
       def open(issue_id)
-        issue = get_issue_or_exit issue_id
+        get_issue_or_exit issue_id
         Launchy.open("#{Config.issue_browse_url}#{issue_id}")
       end
 

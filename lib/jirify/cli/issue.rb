@@ -31,8 +31,9 @@ module Jirify
       end
 
       desc 'open [ISSUE]', 'Opens an issue in your browser'
+      method_option :force, type: :boolean, aliases: '-f', desc: 'Don\'t check if issue exists'
       def open(issue_id)
-        get_issue_or_exit issue_id
+        get_issue_or_exit issue_id unless options[:force]
         Launchy.open("#{Config.issue_browse_url}#{issue_id}")
       end
 

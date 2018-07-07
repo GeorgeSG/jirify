@@ -7,7 +7,8 @@ module JIRA
       end
 
       def assign_to!(username)
-        client.send(:put, "#{url}/assignee", { name: username }.to_json)
+        attrs = { name: username }.to_json
+        client.send(:put, "#{url}/assignee", attrs)
       end
     end
   end

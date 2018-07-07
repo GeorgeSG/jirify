@@ -14,13 +14,32 @@ module Jirify
         File.write(config_file, config.to_yaml)
       end
 
+      def verbose(value)
+        unless initialized?
+          puts 'ERROR: You must initialize Jirify first!'.red
+          exit(0)
+        end
+
+        config = YAML.load_file(config_file)
+        config['options']['verbose'] = value
+        write(config)
+      end
+
       def config_file
         @config_file ||= "#{Dir.home}/.jirify"
       end
 
       def options
-        raise StandardError unless initialized?
+        unless initialized?
+          puts 'ERROR: You must initialize Jirify first!'.red
+          exit(0)
+        end
+
         @options ||= YAML.load_file(config_file)['options']
+      end
+
+      def always_verbose
+        options['verbose']
       end
 
       def atlassian_url

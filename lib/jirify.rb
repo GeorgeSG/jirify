@@ -18,6 +18,9 @@ module Jirify
   class CLI < Thor
     class_option :verbose, type: :boolean, aliases: '-v', desc: 'Show more verbose information'
 
+    desc 'setup SUBCOMMAND', 'Jirify setup tools'
+    subcommand 'setup', Subcommands::Setup
+
     desc 'issues SUBCOMMAND', 'Work with JIRA Issues'
     subcommand 'issues', Subcommands::Issues
 

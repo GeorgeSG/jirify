@@ -25,7 +25,7 @@ module Jirify
       def mine
         statuses = build_issue_statuses(options)
         issues = Jirify::Issue.list_mine(statuses, options[:all])
-        issues.each { |issue| issue.print options[:verbose] }
+        issues.each { |issue| issue.print Config.always_verbose || options[:verbose] }
       end
 
       desc 'assignee [ISSUE]', 'Displays issue assignee'
@@ -33,7 +33,7 @@ module Jirify
         issue = get_issue_or_exit issue_id
 
         if issue.assignee.nil?
-          puts "Unassigned".red
+          puts 'Unassigned'.yellow
         else
           puts issue.assignee.name
         end
@@ -44,7 +44,7 @@ module Jirify
         issue = get_issue_or_exit issue_id
 
         if issue.assignee.nil?
-          puts "Issue already unassigned".yellow
+          puts 'Issue already unassigned'.yellow
           exit(0)
         end
 
@@ -71,17 +71,17 @@ module Jirify
       def transitions(issue_id)
         issue = get_issue_or_exit issue_id
 
-        puts "Available transitions:"
+        puts 'Available transitions:'
         puts issue.transitions.names
       end
 
       desc 'transition [ISSUE] [TRANSITION]', 'Manually perform a transition'
       def transition(issue_id, transition_name)
         issue = get_issue_or_exit issue_id
-        transition = issue.transitions.list.find { |transition| transition.name == transition_name }
+        transition = issue.transitions.list.find { |t| t.name == transition_name }
 
         if transition.nil?
-          puts "ERROR: Issue cannto transition to #{transition_name}".red
+          puts "ERROR: Issue can't transition to #{transition_name}".red
           exit(0)
         end
 
@@ -105,10 +105,10 @@ module Jirify
         check_assigned_to_self issue
 
         if issue.blocked?
-          puts "Unblocking issue..."
+          puts 'Unblocking issue...'
           issue.unblock!
         else
-          puts "Issue wasn't blocked anyway :)".green
+          puts 'Issue wasn\'t blocked anyway :)'.green
         end
       end
 
@@ -177,7 +177,7 @@ module Jirify
         issue = Jirify::Issue.find_by_id(issue_id)
 
         if issue.nil?
-          puts "ERROR: Issue not found".red
+          puts 'ERROR: Issue not found'.red
           exit(0)
         else
           issue

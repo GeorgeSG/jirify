@@ -91,7 +91,7 @@ module Jirify
 
       def find_by_id(issue_id)
         Issue.new client.Issue.find(issue_id)
-      rescue
+      rescue StandardError
         nil
       end
 

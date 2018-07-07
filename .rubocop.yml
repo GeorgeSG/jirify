@@ -8,5 +8,8 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 25
 
+Metrics/ClassLength:
+  Enabled: False
+
 Metrics/AbcSize:
   Enabled: False

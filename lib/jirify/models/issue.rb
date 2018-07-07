@@ -60,14 +60,12 @@ module Jirify
     end
 
     class << self
-      def list_mine(verbose, statuses = [], all = false)
+      def list_mine(statuses = [], all = false)
         my_issues = find_mine(all).sort_by { |issue| issue.status.name }
 
-        my_issues.select! do |issue|
+        my_issues.select do |issue|
           statuses.empty? || statuses.any? { |status| issue.status? status }
         end
-
-        my_issues.each { |issue| issue.print verbose }
       end
 
       def find_mine(all)

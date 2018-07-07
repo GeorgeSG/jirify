@@ -29,7 +29,8 @@ module Jirify
         statuses << 'Closed'      if options[:closed]
       end
 
-      Jirify::Issue.list_mine(options[:verbose], statuses, options[:all])
+      issues = Jirify::Issue.list_mine(statuses, options[:all])
+      issues.each { |issue| issue.print options[:verbose] }
     end
 
     desc 'start ISSUE', 'Moves an issue to "In Progress"'

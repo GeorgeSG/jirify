@@ -38,10 +38,13 @@ module Jirify
                            else                    status_justified
                            end
 
+        key = issue.key.ljust(7)
+        url = "#{Config.issue_browse_url}#{issue.key}"
+
         if verbose
-          puts "#{status_colorized} #{issue.key.ljust(7)}: #{issue.summary} (#{Config.issue_browse_url}#{issue.key})"
+          puts "#{status_colorized} #{key}: #{issue.summary} (#{url})"
         else
-          puts "#{issue.key.ljust(7)}: (#{Config.issue_browse_url}#{issue.key})"
+          puts "#{key}: (#{url})"
         end
       end
     end

@@ -1,5 +1,18 @@
+module JIRA
+  module Resource
+    class Issue
+      def transition!(transition)
+        attrs = { transition: transition.id }.to_json
+        client.send(:post, "#{url}/transitions", attrs)
+      end
+    end
+  end
+end
+
 module Jirify
   class Issue < Base
+    class InvalidTransitionError < StandardError; end
+
     def mine?
       !assignee.nil? && assignee.emailAddress == Config.username
     end
@@ -8,22 +21,37 @@ module Jirify
       @status ||= Jirify::Status.new @entity.status
     end
 
-    def todo?
-      status.name == Config.statuses['todo']
+    Config.statuses.keys.each do |status_key|
+      define_method "#{status_key.to_sym}?" do
+        status.name == Config.statuses[status_key]
+      end
     end
 
     def status?(status_name)
+      status_name = status_name.to_s if status_name.is_a? Symbol
       status.name == status_name
     end
 
-    def start!
-      puts "starting #{summary}..."
-      # @issue.save! status: Status.in_progress
+    def transitions(reload = false)
+      if reload
+        @transitions = Jirify::TransitionList.all @entity
+      else
+        @transitions ||= Jirify::TransitionList.all @entity
+      end
     end
 
-    def close!
-      puts "closing #{summary}..."
-      # @issue.save! status: Status.closed
+    Config.transitions.keys.each do |transition_name|
+      define_method "#{transition_name}!".to_sym do
+        transition = transitions(true).send(transition_name.to_sym)
+
+        if transition.nil?
+          puts "ERROR: Issue can't be transitioned with \"#{transition_name}\"".red
+          exit(0)
+        end
+
+        puts "Transitioning #{key} with \"#{transition_name}\"...".green
+        @entity.transition! transition
+      end
     end
 
     def print(verbose)

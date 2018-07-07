@@ -5,6 +5,7 @@ require 'colorize'
 require 'jirify/config'
 require 'jirify/models/base'
 require 'jirify/models/status'
+require 'jirify/models/transition_list'
 require 'jirify/models/issue'
 require 'jirify/models/sprint'
 require 'jirify/models/project'
@@ -17,7 +18,13 @@ module Jirify
   class CLI < Thor
     class_option :verbose, type: :boolean, aliases: '-v', desc: 'Show more verbose information'
 
-    desc "project SUBCOMMAND", "Work with JIRA Projects"
-    subcommand "project", Subcommands::Project
+    desc 'issues SUBCOMMAND', 'Work with JIRA Issues'
+    subcommand 'issues', Subcommands::Issues
+
+    desc 'i SUBCOMMAND', 'Work with JIRA Issues'
+    subcommand 'i', Subcommands::Issues
+
+    desc 'projects SUBCOMMAND', 'Work with JIRA Projects'
+    subcommand 'projects', Subcommands::Projects
   end
 end

@@ -37,10 +37,24 @@ module Jirify
 
       def statuses
         options['statuses'] || {
+          'blocked'     => 'Blocked',
           'todo'        => 'To Do',
           'in_progress' => 'In Progress',
           'in_review'   => 'In Review',
           'done'        => 'Closed'
+        }
+      end
+
+      def transitions
+        options['transitions'] || {
+          'block'        => 'Blocked',
+          'unblock'      => 'Unblock',
+          'start'        => 'Start Progress',
+          'stop'         => 'Stop Progress',
+          'start_review' => 'Code Review',
+          'stop_review'  => 'Back to In Progress',
+          'close'        => 'Close',
+          'reopen'       => 'Reopen'
         }
       end
 

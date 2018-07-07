@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description = 'JIRA for your terminal'
   s.license     = 'MIT'
 
-  s.files       = Dir.glob('{bin,lib}/**/*') + %w[README.md]
+  s.files       = Dir.glob('{bin,lib}/**/*') + %w[README.md jirify.bash_completion.sh]
   s.executables = ['jira']
   s.require_paths = ['lib']
 

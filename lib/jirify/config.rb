@@ -1,10 +1,30 @@
 require 'yaml'
+require 'fileutils'
 
 module Jirify
   class Config
     class << self
+      CONFIG_FOLDER = "#{Dir.home}/.jirify".freeze
+      CONFIG_FILE   = "#{CONFIG_FOLDER}/.jirify".freeze
+
+      def config_folder
+        initialize! unless initialized?
+        @config_folder ||= CONFIG_FOLDER
+      end
+
+      def config_file
+        initialize! unless initialized?
+        @config_file ||= CONFIG_FILE
+      end
+
       def initialized?
-        File.exist? config_file
+        File.directory?(CONFIG_FOLDER) && File.exist?(CONFIG_FILE)
+      end
+
+      def initialize!
+        FileUtils::mkdir_p CONFIG_FOLDER
+        FileUtils::touch CONFIG_FILE
+        FileUtils::cp "#{File.expand_path('..', File.dirname(__dir__))}/jirify.bash_completion.sh", CONFIG_FOLDER
       end
 
       def write(config)
@@ -14,7 +34,7 @@ module Jirify
         File.write(config_file, config.to_yaml)
       end
 
-      def verbose(value)
+      def verbose=(value)
         unless initialized?
           puts 'ERROR: You must initialize Jirify first!'.red
           exit(0)
@@ -23,10 +43,6 @@ module Jirify
         config = YAML.load_file(config_file)
         config['options']['verbose'] = value
         write(config)
-      end
-
-      def config_file
-        @config_file ||= "#{Dir.home}/.jirify"
       end
 
       def options
@@ -55,17 +71,23 @@ module Jirify
       end
 
       def statuses
-        options['statuses'] || {
+        default = {
           'blocked'     => 'Blocked',
           'todo'        => 'To Do',
           'in_progress' => 'In Progress',
           'in_review'   => 'In Review',
           'done'        => 'Closed'
         }
+
+        if initialized?
+          options['statuses'] || default
+        else
+          default
+        end
       end
 
       def transitions
-        options['transitions'] || {
+        default = {
           'block'        => 'Blocked',
           'unblock'      => 'Unblock',
           'start'        => 'Start Progress',
@@ -75,6 +97,12 @@ module Jirify
           'close'        => 'Close',
           'reopen'       => 'Reopen'
         }
+
+        if initialized?
+          options['transitions'] || default
+        else
+          default
+        end
       end
 
       def client_options

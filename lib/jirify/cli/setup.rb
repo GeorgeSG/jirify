@@ -32,12 +32,15 @@ module Jirify
         options['options']['filter_by_labels'] = labels unless labels.empty?
 
         Config.write(options)
+
+        say "Done!"
+        say "If you want to enable bash completion, source #{Config.config_folder}/jirify.bash_completion.sh"
       end
 
       desc 'verbose', 'Set always verbose to true or false'
-      method_option :enable, type: :boolean, aliases: '-e', default: false, desc: 'Enable or disable'
+      method_option :enable, type: :boolean, aliases: '-e', default: false, desc: 'Enable or Disable'
       def verbose
-        Config.verbose(options[:enable])
+        Config.verbose = options[:enable]
       end
     end
   end

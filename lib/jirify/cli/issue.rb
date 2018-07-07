@@ -36,7 +36,7 @@ module Jirify
     def start(issue_id)
       issue = Jirify::Issue.find_by_id(issue_id)
 
-      if issue.assignee.emailAddress != Config.username
+      if issue.assignee.nil? || issue.assignee.emailAddress != Config.username
         exit(0) unless yes? 'WARNING! This ticket is not assigned to you! Are you sure you want to continue? [Y/n]:'
       end
 

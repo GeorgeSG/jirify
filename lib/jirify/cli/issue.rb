@@ -30,7 +30,7 @@ module Jirify
 
       desc 'assignee [ISSUE]', 'Displays issue assignee'
       def assignee(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
 
         if issue.assignee.nil?
           puts "Unassigned".red
@@ -41,7 +41,7 @@ module Jirify
 
       desc 'take [ISSUE]', 'Assigns an issue to you'
       def take(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
 
         puts "Assigning #{issue.key} to #{Config.username}..."
         issue.assign_to_me!
@@ -49,20 +49,22 @@ module Jirify
 
       desc 'status [ISSUE]', 'Displays issue status'
       def status(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
+
         puts issue.status.name
       end
 
       desc 'transitions [ISSUE]', 'Displays available transitions'
       def transitions(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
+
         puts "Available transitions:"
         puts issue.transitions.names
       end
 
       desc 'transition [ISSUE] [TRANSITION]', 'Manually perform a transition'
       def transition(issue_id, transition_name)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
         transition = issue.transitions.list.find { |transition| transition.name == transition_name }
 
         if transition.nil?
@@ -76,7 +78,7 @@ module Jirify
 
       desc 'block [ISSUE]', "Moves an issue to #{Config.statuses['blocked']}"
       def block(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
 
         issue.reopen! if issue.done?
@@ -86,7 +88,7 @@ module Jirify
 
       desc 'unblock [ISSUE]', 'Unblocks an issue'
       def unblock(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
 
         if issue.blocked?
@@ -99,7 +101,7 @@ module Jirify
 
       desc 'todo [ISSUE]', "Moves an issue to #{Config.statuses['todo']}"
       def todo(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
 
         if issue.blocked?
@@ -116,7 +118,7 @@ module Jirify
 
       desc 'start [ISSUE]', "Moves an issue to #{Config.statuses['in_progress']}"
       def start(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
 
         issue.unblock! if issue.blocked?
@@ -131,7 +133,7 @@ module Jirify
 
       desc 'review [ISSUE]', "Moves an issue to #{Config.statuses['in_review']}"
       def review(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
 
         if issue.blocked?
@@ -149,7 +151,7 @@ module Jirify
 
       desc 'close [ISSUE]', "Moves an issue to #{Config.statuses['done']}"
       def close(issue_id)
-        issue = Jirify::Issue.find_by_id(issue_id)
+        issue = get_issue_or_exit issue_id
         check_assigned_to_self issue
 
         issue.unblock! if issue.blocked?
@@ -157,6 +159,17 @@ module Jirify
       end
 
       protected
+
+      def get_issue_or_exit(issue_id)
+        issue = Jirify::Issue.find_by_id(issue_id)
+
+        if issue.nil?
+          puts "ERROR: Issue not found".red
+          exit(0)
+        else
+          issue
+        end
+      end
 
       def check_assigned_to_self(issue)
         unless issue.mine?

@@ -21,7 +21,7 @@ options:
   site: <JIRA url>
   project: <JIRA project key>
   filter_by_labels:
-  - <label to filter by when displaying sprint>
+    - <label to filter by when displaying sprint>
   verbose: <force jirify to always be verbose>
 ```
 

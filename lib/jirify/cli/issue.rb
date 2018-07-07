@@ -39,6 +39,19 @@ module Jirify
         end
       end
 
+      desc 'unassign [ISSUE]', 'Unassign an issue'
+      def unassign(issue_id)
+        issue = get_issue_or_exit issue_id
+
+        if issue.assignee.nil?
+          puts "Issue already unassigned".yellow
+          exit(0)
+        end
+
+        puts "Previous assignee: #{issue.assignee.name}. Unassigning..."
+        issue.unassign!
+      end
+
       desc 'take [ISSUE]', 'Assigns an issue to you'
       def take(issue_id)
         issue = get_issue_or_exit issue_id

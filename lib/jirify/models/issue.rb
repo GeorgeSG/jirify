@@ -25,6 +25,10 @@ module Jirify
       @entity.assign_to!(Config.username.split('@')[0])
     end
 
+    def unassign!
+      @entity.assign_to!(nil)
+    end
+
     def status
       @status ||= Jirify::Status.new @entity.status
     end

@@ -13,7 +13,7 @@ Currently, the config structure of `jirify` is:
   - `jirify.bash_completion.sh` - bash completion script you can source
   - `.cache` - cache for completion script
 
-## `.jirify`
+## Config file: `$HOME/.jirify/.jirify`
 ```yaml
 options:
   username: <atlassian username (email)>

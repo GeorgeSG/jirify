@@ -19,16 +19,7 @@ module Jirify
                   type: :array,
                   desc: 'Show only issues with the specified statuses'
     def mine
-      if options[:status]
-        statuses = [options[:status]]
-      else
-        statuses = []
-        statuses << 'To Do'       if options[:todo]
-        statuses << 'In Progress' if options[:in_progress]
-        statuses << 'In Review'   if options[:in_review]
-        statuses << 'Closed'      if options[:closed]
-      end
-
+      statuses = build_issue_statuses(options)
       issues = Jirify::Issue.list_mine(statuses, options[:all])
       issues.each { |issue| issue.print options[:verbose] }
     end
@@ -49,6 +40,22 @@ module Jirify
       issue.start!
     rescue JIRA::HTTPError
       puts "Unable to find issue #{issue_id}."
+    end
+
+    protected
+
+    def build_issue_statuses(options)
+      if options[:status]
+        statuses = [options[:status]]
+      else
+        statuses = []
+        statuses << 'To Do'       if options[:todo]
+        statuses << 'In Progress' if options[:in_progress]
+        statuses << 'In Review'   if options[:in_review]
+        statuses << 'Closed'      if options[:closed]
+      end
+
+      statuses
     end
   end
 end

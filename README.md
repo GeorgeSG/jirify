@@ -1,4 +1,6 @@
 # jirify
+[![Gem Version](https://badge.fury.io/rb/jirify.svg)](https://badge.fury.io/rb/jirify)
+
 A simple ruby gem that helps me work with jira
 
 ## Installation

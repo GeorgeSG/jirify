@@ -49,10 +49,10 @@ module Jirify
         statuses = [options[:status]]
       else
         statuses = []
-        statuses << 'To Do'       if options[:todo]
-        statuses << 'In Progress' if options[:in_progress]
-        statuses << 'In Review'   if options[:in_review]
-        statuses << 'Closed'      if options[:closed]
+        statuses << Config.statuses['todo']        if options[:todo]
+        statuses << Config.statuses['in_progress'] if options[:in_progress]
+        statuses << Config.statuses['in_review']   if options[:in_review]
+        statuses << Config.statuses['done']        if options[:closed]
       end
 
       statuses

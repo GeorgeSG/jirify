@@ -5,6 +5,8 @@ module Jirify
       def list
         puts Jirify::Project.all.map(&:name)
       end
+
+      default_task :list
     end
   end
 end

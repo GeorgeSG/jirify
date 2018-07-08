@@ -22,9 +22,9 @@ module Jirify
       end
 
       def initialize!
-        FileUtils::mkdir_p CONFIG_FOLDER
-        FileUtils::touch CONFIG_FILE
-        FileUtils::cp "#{File.expand_path('..', File.dirname(__dir__))}/jirify.bash_completion.sh", CONFIG_FOLDER
+        FileUtils.mkdir_p CONFIG_FOLDER
+        FileUtils.touch CONFIG_FILE
+        FileUtils.cp "#{File.expand_path('..', File.dirname(__dir__))}/jirify.bash_completion.sh", CONFIG_FOLDER
       end
 
       def write(config)

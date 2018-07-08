@@ -1,4 +1,5 @@
 require 'io/console'
+require 'terminal-table'
 
 module Jirify
   module UI
@@ -26,25 +27,37 @@ module Jirify
         { width: terminal_width, border_x: '-', border_i: 'x' }
       end
 
+      def headings(grouped_issues)
+        grouped_issues.keys.sort_by do |name|
+          Jirify::Status.status_order.index(name)
+        end
+      end
+
       def grouped_issues_as_table(grouped_issues, verbose)
         transposed = transpose(grouped_issues.values, verbose)
         return nil if transposed.empty?
 
         Terminal::Table.new(
-          headings: grouped_issues.keys,
+          headings: headings(grouped_issues),
           rows: transposed,
           style: table_style
         )
       end
 
-      def transpose(all_groups, verbose)
-        total_col_width_padding = all_groups.size * 4
+      def transpose(grouped_issues, verbose)
+        col_padding_per_row = grouped_issues.size * 4
+        max_cell_length     = (terminal_width - col_padding_per_row) / grouped_issues.size
 
         # workaround - not all groups have the same size
-        l = all_groups.map(&:length).max
-        transposed = all_groups.map { |e| e.values_at(0...l) }.transpose
+        l = grouped_issues.map(&:length).max
+        grouped_as_array = grouped_issues.map { |e| e.values_at(0...l) }
 
-        max_cell_length = (terminal_width - total_col_width_padding) / all_groups.size
+        grouped_as_array.sort_by! do |row|
+          issue = row.find { |i| !i.nil? }
+          issue.status
+        end
+
+        transposed = grouped_as_array.transpose
 
         transposed.map! do |row|
           row.map do |issue|

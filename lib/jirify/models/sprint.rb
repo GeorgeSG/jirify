@@ -1,11 +1,9 @@
-require 'terminal-table'
-require 'json'
-
 module Jirify
   class Sprint < Base
     class << self
-      def issues_in_current_sprint(only_mine = false)
-        client.Issue.jql current_sprint_jql(only_mine), max_results: 200
+      def issues_in_current_sprint(only_mine = false, max_results = 200)
+        issues = client.Issue.jql current_sprint_jql(only_mine), max_results: max_results
+        issues.map { |issue| Jirify::Issue.new issue }
       end
 
       protected

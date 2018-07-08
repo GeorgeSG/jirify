@@ -1,5 +1,5 @@
-require 'thor'
 require 'jira-ruby'
+require 'thor'
 require 'colorize'
 
 require 'jirify/version'

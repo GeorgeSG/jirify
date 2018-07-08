@@ -31,3 +31,6 @@ RSpec/AnyInstance:
 
 RSpec/MessageChain:
   Enabled: False
+
+RSpec/VerifiedDoubles:
+  Enabled: False

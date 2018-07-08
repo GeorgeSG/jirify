@@ -11,8 +11,8 @@ RSpec.configure do |config|
 
   config.before(:all) do
     # Redirect stderr and stdout
-    $stderr = File.new(File.join(File.dirname(__dir__), 'spec', 'test_stderr.txt'), 'w')
-    $stdout = File.new(File.join(File.dirname(__dir__), 'spec', 'test_stdout.txt'), 'w')
+    $stderr = File.new(File.join(File.dirname(__dir__), 'spec/tmp', 'test_stderr.txt'), 'w')
+    $stdout = File.new(File.join(File.dirname(__dir__), 'spec/tmp', 'test_stdout.txt'), 'w')
   end
 
   config.after(:all) do

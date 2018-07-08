@@ -27,7 +27,7 @@ module Jirify
 
     desc 'version', 'Prints Jirify version'
     def version
-      puts "Current Jirify version: #{VERSION}"
+      say "Current Jirify version: #{VERSION}"
     end
 
     desc 'setup [SUBCOMMAND]', 'Jirify setup tools'

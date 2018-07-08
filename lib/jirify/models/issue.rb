@@ -51,13 +51,13 @@ module Jirify
       end
     end
 
-    def print(verbose)
+    def to_s(verbose)
       url = "#{Config.issue_browse_url}#{key}".blue
 
       if verbose
-        puts "#{status.pretty_name} #{key.ljust(7)}: #{summary} (#{url})"
+        "#{status.pretty_name} #{key.ljust(7)}: #{summary} (#{url})"
       else
-        puts "#{key.ljust(7)}: (#{url})"
+        "#{key.ljust(7)}: (#{url})"
       end
     end
 

@@ -32,7 +32,7 @@ module Jirify
           if options[:key_only]
             say issue.key
           else
-            issue.print Config.always_verbose || options[:verbose]
+            say issue.to_s Config.always_verbose || options[:verbose]
           end
         end
       end

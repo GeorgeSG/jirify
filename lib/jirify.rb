@@ -31,7 +31,7 @@ module Jirify
 
     desc 'version', 'Prints Jirify version'
     def version
-      say "Current Jirify version: #{VERSION}"
+      say ColorizedString["  Current Jirify version: #{VERSION}  "].white.on_blue.bold
     end
 
     desc 'setup [SUBCOMMAND]', 'Jirify setup tools'

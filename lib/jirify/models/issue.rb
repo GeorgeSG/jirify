@@ -43,7 +43,8 @@ module Jirify
           transition = transitions(true).send(transition_name.to_sym)
 
           if transition.nil?
-            puts ColorizedString["ERROR: Issue can't be transitioned with \"#{transition_name}\""].white.on_red.bold
+            puts ColorizedString["  ERROR: Issue can't be transitioned with \"#{transition_name}\"  "]
+              .white.on_red.bold
             exit(0)
           end
 

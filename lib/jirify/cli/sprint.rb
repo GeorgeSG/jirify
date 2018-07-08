@@ -17,8 +17,9 @@ module Jirify
         duplicate_options[:summary] = true
       end
       say UI::SprintTable.new(issues).to_table(duplicate_options)
-    rescue UI::WindowTooNarrow
-      say ColorizedString['ERROR: Your terminal window is too narrow to print the sprint table!'].white.on_red
+    rescue UI::WindowTooNarrow, StandardError
+      say ColorizedString['  ERROR: Your terminal window is too narrow to print the sprint table!  ']
+        .white.on_red.bold
     end
   end
 end

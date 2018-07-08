@@ -51,9 +51,11 @@ module Jirify
       end
 
       def wrap(string, columns, character = "\n")
+        return '' if string.nil?
+
         start_pos = columns
         while start_pos < string.length
-          space = string.rindex(' ', start_pos)
+          space = string.rindex(' ', start_pos) || start_pos + 1
           string.slice!(space)
           string.insert(space, character)
           start_pos = space + columns + 1

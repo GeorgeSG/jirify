@@ -135,11 +135,6 @@ describe Jirify::Config do
   end
 
   describe '::options' do
-    before do
-      config.class_variable_set :@@options, nil
-      allow(config).to receive(:config_file).and_return(mock_config_file)
-    end
-
     it 'exits if the config hasn\'t been initialized' do
       allow(config).to receive(:initialized?).and_return(false)
       expect { config.options }.to raise_error(SystemExit)

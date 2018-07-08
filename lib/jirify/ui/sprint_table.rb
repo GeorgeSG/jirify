@@ -29,7 +29,12 @@ module Jirify
 
       def headings(grouped_issues)
         grouped_issues.keys.sort_by do |name|
-          Jirify::Status.status_order.index(name)
+          status_index = Jirify::Status.status_order.index(name)
+          if status_index.nil?
+            grouped_issues.keys.length
+          else
+            status_index
+          end
         end
       end
 

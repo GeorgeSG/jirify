@@ -12,14 +12,20 @@ Gem::Specification.new do |s|
   s.summary     = 'JIRA CLI'
   s.description = 'JIRA for your terminal'
   s.license     = 'MIT'
+  s.metadata    = { 'source_code_uri' => 'https://github.com/GeorgeSG/jirify' }
+  s.post_install_message = 'Thanks for installing! Run <jira setup> for initial configuration.'
 
-  s.files       = Dir.glob('{bin,lib}/**/*') + %w[README.md jirify.bash_completion.sh]
-  s.executables = ['jira']
+  s.files         = Dir.glob('{bin,lib}/**/*') + %w[README.md jirify.bash_completion.sh]
+  s.executables   = ['jira']
   s.require_paths = ['lib']
 
-  s.add_dependency 'colorize', '~> 0.8'
-  s.add_dependency 'jira-ruby', '~> 1.5'
-  s.add_dependency 'launchy', '~> 2.4'
-  s.add_dependency 'terminal-table', '~> 1.8'
-  s.add_dependency 'thor', '~> 0.20'
+  s.add_runtime_dependency 'colorize', '~> 0.8', '>= 0.8.1'
+  s.add_runtime_dependency 'jira-ruby', '~> 1.5'
+  s.add_runtime_dependency 'launchy', '~> 2.4', '>= 2.4.3'
+  s.add_runtime_dependency 'terminal-table', '~> 1.8'
+  s.add_runtime_dependency 'thor', '~> 0.20'
+
+  s.add_development_dependency 'rake', '~> 12.1'
+  s.add_development_dependency 'rake-release', '~> 1.0', '>= 1.0.1'
+  s.add_development_dependency 'rubocop', '~> 0.57', '>= 0.57.2'
 end

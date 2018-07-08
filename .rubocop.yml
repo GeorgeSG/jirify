@@ -34,3 +34,6 @@ RSpec/MessageChain:
 
 RSpec/VerifiedDoubles:
   Enabled: False
+
+Style/ConditionalAssignment :
+  EnforcedStyle: assign_inside_condition

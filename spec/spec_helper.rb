@@ -18,3 +18,8 @@ RSpec.configure do |config|
     $stdout = original_stdout
   end
 end
+
+def mock_config
+  file = File.join(File.dirname(__dir__), 'spec/mocks/', '.jirify.mock')
+  YAML.load_file(file)['options']
+end

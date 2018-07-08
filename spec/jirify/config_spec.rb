@@ -5,11 +5,7 @@ describe Jirify::Config do
   let(:config) { described_class }
   let(:config_dir) { "#{Dir.home}/.jirify" }
   let(:config_file) { "#{Dir.home}/.jirify/.jirify" }
-
-  let(:mock_options) do
-    file = File.join(File.dirname(__dir__), 'mocks/', '.jirify.mock')
-    YAML.load_file(file)['options']
-  end
+  let(:mock_options) { mock_config }
 
   before do
     allow(FileUtils).to receive(:mkdir_p)

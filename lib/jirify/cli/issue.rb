@@ -105,7 +105,7 @@ module Jirify
         transition = issue.transitions.find_by_name(transition_name)
 
         if transition.nil?
-          say "ERROR: Issue can't transition to #{transition_name}".red
+          say ColorizedString["  ERROR: Issue can't transition to #{transition_name}  "].white.on_red.bold
           exit(0)
         end
 
@@ -201,7 +201,7 @@ module Jirify
         issue = Models::Issue.find_by_id(issue_id)
 
         if issue.nil?
-          say 'ERROR: Issue not found'.red
+          say ColorizedString['  ERROR: Issue not found  '].white.on_red.bold
           exit(0)
         else
           issue

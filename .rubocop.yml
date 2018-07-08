@@ -1,3 +1,5 @@
+require: rubocop-rspec
+
 Documentation:
   Enabled: false
 
@@ -5,8 +7,18 @@ Documentation:
 Metrics/LineLength:
   Max: 120
 
+Metrics/BlockLength:
+  Exclude:
+  - 'Rakefile'
+  - 'spec/**/*.rb'
+  - '*.gemspec'
+
 Metrics/MethodLength:
   Max: 25
+  Exclude:
+    - 'Rakefile'
+    - 'spec/**/*.rb'
+    - '*.gemspec'
 
 Metrics/ClassLength:
   Enabled: False

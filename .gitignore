@@ -1,2 +1,5 @@
 Gemfile.lock
 pkg/
+coverage/
+spec/test_stderr.txt
+spec/test_stdout.txt

@@ -15,7 +15,7 @@ module Jirify
     end
 
     def status
-      @status ||= Jirify::Status.new @entity.status
+      @status ||= Status.new @entity.status
     end
 
     def status?(status_name)
@@ -31,9 +31,9 @@ module Jirify
 
     def transitions(reload = false)
       if reload
-        @transitions = Jirify::TransitionList.all @entity
+        @transitions = TransitionList.all @entity
       else
-        @transitions ||= Jirify::TransitionList.all @entity
+        @transitions ||= TransitionList.all @entity
       end
     end
 

@@ -3,7 +3,7 @@ module Jirify
     class << self
       def issues_in_current_sprint(only_mine = false, max_results = 200)
         issues = client.Issue.jql current_sprint_jql(only_mine), max_results: max_results
-        issues.map { |issue| Jirify::Issue.new issue }
+        issues.map { |issue| Issue.new issue }
       end
 
       protected

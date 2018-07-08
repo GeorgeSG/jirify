@@ -5,7 +5,7 @@ module Jirify
 
       desc 'list', 'List all projects'
       def list
-        Jirify::Project.all.map(&:name).each { |name| say name }
+        Project.all.map(&:name).each { |name| say name }
       end
     end
   end

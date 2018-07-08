@@ -15,7 +15,9 @@ module Jirify
     end
 
     Config.transitions.keys.each do |transition_name|
-      define_method(transition_name.to_sym) { find_by_name transition_name }
+      define_method(transition_name.to_sym) do
+         find_by_name Config.transitions[transition_name]
+      end
     end
 
     class << self

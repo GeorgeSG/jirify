@@ -45,7 +45,7 @@ describe Jirify::TransitionList do # rubocop:disable RSpec/FilePath
 
   describe '#names' do
     it 'returns the names of all transitions' do
-      expect(transition_list.names).to eq ['Custom Start Progress', "Close"]
+      expect(transition_list.names).to eq ['Custom Start Progress', 'Close']
     end
   end
 

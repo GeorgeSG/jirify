@@ -27,7 +27,7 @@ module Jirify
                     desc: 'Show only issues with the specified statuses'
       def mine
         statuses = build_issue_statuses(options)
-        issues = Issue.list_mine(statuses, options[:all])
+        issues = Models::Issue.list_mine(statuses, options[:all])
         issues.each do |issue|
           if options[:key_only]
             say issue.key
@@ -198,7 +198,7 @@ module Jirify
       protected
 
       def get_issue_or_exit(issue_id)
-        issue = Issue.find_by_id(issue_id)
+        issue = Models::Issue.find_by_id(issue_id)
 
         if issue.nil?
           say 'ERROR: Issue not found'.red

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Jirify::Project do # rubocop:disable RSpec/FilePath
+describe Jirify::Models::Project do
   let(:project_instance) { instance_double(JIRA::Resource::Project, id: 'key') }
 
   before do

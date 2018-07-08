@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Jirify::TransitionList do # rubocop:disable RSpec/FilePath
+describe Jirify::Models::TransitionList do
   subject(:transition_list) do
     described_class.all(issue_instance)
   end

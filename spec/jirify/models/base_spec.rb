@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Jirify::Base do # rubocop:disable RSpec/FilePath
+describe Jirify::Models::Base do
   before do
     allow(Jirify::Config).to receive(:options).and_return(mock_config)
   end

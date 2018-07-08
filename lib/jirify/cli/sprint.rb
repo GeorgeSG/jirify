@@ -5,7 +5,7 @@ module Jirify
     method_option :all_columns, type: :boolean, aliases: '-a', desc: 'Show all columns'
     def sprint
       verbose = Config.always_verbose || options[:verbose]
-      issues  = Sprint.issues_in_current_sprint(options[:mine])
+      issues  = Models::Sprint.issues_in_current_sprint(options[:mine])
 
       say UI::SprintTable.new(issues).to_table(options[:all_columns], verbose)
     rescue UI::WindowTooNarrow

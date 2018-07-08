@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Jirify::Status do # rubocop:disable RSpec/FilePath
+describe Jirify::Models::Status do
   let(:status_instances) do
     [
       double(JIRA::Resource::Status, name: 'Custom To Do'),

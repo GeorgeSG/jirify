@@ -10,6 +10,18 @@ module Jirify
         @max_cell_length = max_cell_length
       end
 
+      def to_s(options)
+        raise UI::WindowTooNarrow, 'The terminal window is too narrow.' if max_cell_length <= key.size
+
+        row = ''
+        row << key_and_summary_lines(options, max_cell_length)
+        row << "\n#{ColorizedString[url].blue.underline}" if display_url?(options)
+        row << assignee_line(max_cell_length) if show_assignee?(options)
+        row
+      end
+
+      protected
+
       def key
         issue.key
       end
@@ -34,57 +46,42 @@ module Jirify
         "#{Config.issue_browse_url}#{issue.key}"
       end
 
-      def to_s(options)
-        raise UI::WindowTooNarrow, 'The terminal window is too narrow.' if max_cell_length <= key.size
-
-        options[:verbose] ? to_verbose_cell(options) : to_short_cell(options)
+      def display_url?(options)
+        url.size <= max_cell_length && options[:url]
       end
 
-      protected
+      def wrap(string, columns, character = "\n")
+        start_pos = columns
+        while start_pos < string.length
+          space = string.rindex(' ', start_pos)
+          string.slice!(space)
+          string.insert(space, character)
+          start_pos = space + columns + 1
+        end
 
-      def display_url?
-        url.size <= max_cell_length
-      end
-
-      def assignee_line(options, max_cell_length)
-        return '' unless show_assignee?(options)
-
-        assignee_line = assignee
-        assignee_line = "#{assignee[0...max_cell_length - 3]}..." if assignee_line.size >= max_cell_length
-
-        "\n#{assignee_line.magenta}"
+        string
       end
 
       def key_and_summary_lines(options, max_cell_length)
-        return key unless options[:summary]
+        bold_key = ColorizedString[key].bold
+        return bold_key unless options[:summary]
 
-        key_and_summary = "#{key}: #{summary}"
+        key_and_summary = "#{bold_key}: #{summary}"
 
         if key_and_summary.size <= max_cell_length
           key_and_summary
         else
-          "#{key}\n#{summary[0...max_cell_length - 3]}..."
+          row = "#{bold_key}\n"
+          row << wrap(summary.strip, max_cell_length)
+          row
         end
       end
 
-      def to_verbose_cell(options)
-        row = ''
-        row << key_and_summary_lines(options, max_cell_length)
-        row << "\n#{url.blue}" if display_url? && options[:url]
-        row << assignee_line(options, max_cell_length)
-        row
-      end
+      def assignee_line(max_cell_length)
+        assignee_line = assignee
+        assignee_line = "#{assignee[0...max_cell_length - 3]}..." if assignee_line.size >= max_cell_length
 
-      def to_short_cell(options)
-        return key unless display_url? && options[:url]
-
-        single_row = "#{key}: #{url}"
-
-        if single_row.size <= max_cell_length
-          "#{key}: #{url.blue}"
-        else
-          "#{key}\n#{url.blue}"
-        end
+        "\n#{assignee_line.magenta}"
       end
     end
   end

@@ -28,12 +28,23 @@ module Jirify
       end
 
       def headings(grouped_issues)
-        grouped_issues.keys.sort_by do |name|
+        sorted_headings = grouped_issues.keys.sort_by do |name|
           status_index = Models::Status.status_order.index(name)
           if status_index.nil?
             grouped_issues.keys.length
           else
             status_index
+          end
+        end
+
+        sorted_headings.map! do |name|
+          case name
+          when Config.statuses['todo']        then ColorizedString[name].white.on_black.bold
+          when Config.statuses['in_progress'] then ColorizedString[name].white.on_blue.bold
+          when Config.statuses['in_review']   then ColorizedString[name].white.on_yellow.bold
+          when Config.statuses['blocked']     then ColorizedString[name].white.on_red.bold
+          when Config.statuses['done']        then ColorizedString[name].white.on_green.bold
+          else                                     ColorizedString[name].white.on_green.bold
           end
         end
       end

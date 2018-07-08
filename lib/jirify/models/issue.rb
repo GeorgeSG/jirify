@@ -53,12 +53,13 @@ module Jirify
       end
 
       def to_s(verbose)
-        url = "#{Config.issue_browse_url}#{key}".blue
+        url = ColorizedString["#{Config.issue_browse_url}#{key}"].blue.underline
+        bold_key = ColorizedString["#{key.ljust(7)}:"].bold
 
         if verbose
-          "#{status.pretty_name} #{key.ljust(7)}: #{summary} (#{url})"
+          "#{status.pretty_name} #{bold_key} #{summary} (#{url})"
         else
-          "#{key.ljust(7)}: (#{url})"
+          "#{bold_key} #{url}"
         end
       end
 

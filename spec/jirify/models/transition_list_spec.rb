@@ -32,14 +32,18 @@ describe Jirify::Models::TransitionList do
     end
 
     it 'unwraps values as needed' do
-      allow_any_instance_of(JIRA::Client).to receive_message_chain(:Project, :all) { [transition] }
-      expect(transition_list.list.first.id).to eq 't'
+      allow_any_instance_of(JIRA::Client).to receive_message_chain(:Transition, :all) { transition_instances }
+      expect(transition_list.first.id).to eq 't'
     end
   end
 
   describe '#list' do
-    it 'returns the Transition list' do
-      expect(transition_list.list).to eq transition_instances
+    it 'returns the transition list' do
+      expect(transition_list.list.count).to be 2
+    end
+
+    it 'maps returned transitions to instances' do
+      expect(transition_list.first).to be_a(Jirify::Models::Transition)
     end
   end
 

@@ -1,6 +1,6 @@
 module Jirify
   module Models
-    class Project < Base
+    class Transition < Base
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Jirify::Models::Project do
+describe Jirify::Models::ProjectList do
   let(:project_instance) { instance_double(JIRA::Resource::Project, id: 'key') }
 
   before do
@@ -21,11 +21,11 @@ describe Jirify::Models::Project do
     end
 
     it 'maps returned projects to instances' do
-      expect(described_class.all.first).to be_an(described_class)
+      expect(described_class.all.list.first).to be_an(Jirify::Models::Project)
     end
   end
 
   it 'unwraps values as needed' do
-    expect(described_class.all.first.id).to eq 'key'
+    expect(described_class.all.list.first.id).to eq 'key'
   end
 end

@@ -5,7 +5,13 @@ module Jirify
 
       desc 'list', 'List all projects'
       def list
-        Models::Project.all.map(&:name).each { |name| say name }
+        projects = Models::ProjectList.all
+        longest_key = projects.keys.map(&:size).max
+
+        projects.each do |project|
+          key = "#{project.key}:".ljust(longest_key + 1)
+          say "#{key} #{project.name}"
+        end
       end
     end
   end

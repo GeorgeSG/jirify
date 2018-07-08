@@ -5,12 +5,16 @@ describe Jirify::TransitionList do # rubocop:disable RSpec/FilePath
     described_class.all(issue_instance)
   end
 
-  let(:transition_instance) { double(JIRA::Resource::Transition, id: 't', name: 'transition-1') }
+  let(:transition_instances) do
+    Jirify::Config.transitions.map do |_, value|
+      double(JIRA::Resource::Transition, id: 't', name: value)
+    end
+  end
   let(:issue_instance) { instance_double(JIRA::Resource::Issue, id: 'XX-1234') }
 
   before do
     allow(Jirify::Config).to receive(:options).and_return(mock_config)
-    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Transition, :all) { [transition_instance] }
+    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Transition, :all) { transition_instances }
   end
 
   describe '::all' do
@@ -33,13 +37,13 @@ describe Jirify::TransitionList do # rubocop:disable RSpec/FilePath
 
   describe '#list' do
     it 'returns the Transition list' do
-      expect(transition_list.list).to eq [transition_instance]
+      expect(transition_list.list).to eq transition_instances
     end
   end
 
   describe '#names' do
     it 'returns the names of all transitions' do
-      expect(transition_list.names).to eq ['transition-1']
+      expect(transition_list.names).to eq ['Custom Start Progress', "Close"]
     end
   end
 
@@ -47,6 +51,12 @@ describe Jirify::TransitionList do # rubocop:disable RSpec/FilePath
     it 'defines methods for finding every transition by name' do
       Jirify::Config.transitions.keys.each do |transition|
         expect(transition_list).to respond_to(transition.to_sym)
+      end
+    end
+
+    describe '#start' do
+      it 'returns the start transition' do
+        expect(transition_list.start.name).to eq 'Custom Start Progress'
       end
     end
   end

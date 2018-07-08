@@ -33,7 +33,7 @@ module Jirify
 
         Config.write(options)
 
-        say 'Done!'
+        say 'Done!'.green
         say "If you want to enable bash completion, source #{Config.config_folder}/jirify.bash_completion.sh"
       end
 
@@ -41,6 +41,14 @@ module Jirify
       method_option :enable, type: :boolean, aliases: '-e', default: false, desc: 'Enable or Disable'
       def verbose
         Config.verbose = options[:enable]
+      end
+
+      desc 'bash_completion', 'Update your bash_completion file when a new version comes out'
+      def bash_completion
+        say "Updating #{Config.config_folder}/jirify.bash_completion.sh ...".blue
+        Config.copy_bash_completion!
+
+        say 'Done! You have to source the file again or open a new shell! :)'.green
       end
     end
   end

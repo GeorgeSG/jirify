@@ -2,6 +2,7 @@ require 'jira-ruby'
 require 'thor'
 require 'colorize'
 require 'colorized_string'
+require 'io/console'
 
 require 'jirify/version'
 require 'jirify/config'

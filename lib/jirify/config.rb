@@ -24,6 +24,10 @@ module Jirify
       def initialize!
         FileUtils.mkdir_p CONFIG_FOLDER
         FileUtils.touch CONFIG_FILE
+        copy_bash_completion!
+      end
+
+      def copy_bash_completion!
         FileUtils.cp "#{File.expand_path('..', File.dirname(__dir__))}/jirify.bash_completion.sh", CONFIG_FOLDER
       end
 

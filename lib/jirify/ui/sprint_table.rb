@@ -1,4 +1,3 @@
-require 'io/console'
 require 'terminal-table'
 
 module Jirify

@@ -44,6 +44,19 @@ module Jirify
         Launchy.open("#{Config.issue_browse_url}#{issue_id}")
       end
 
+      desc 'describe [ISSUE]', 'Describes an issue'
+      def describe(issue_id)
+        issue = get_issue_or_exit issue_id
+        cell = UI::SprintCell.new(issue, IO.console.winsize[1])
+
+        options = {}
+        options[:url] = true
+        options[:summary] = true
+        options[:assignee] = true
+
+        say cell.to_s(options)
+      end
+
       #-------------------------#
       # Issue Assignee commands #
       #-------------------------#

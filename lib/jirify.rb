@@ -11,9 +11,10 @@ require 'jirify/models/status'
 require 'jirify/models/transition_list'
 require 'jirify/models/issue'
 require 'jirify/models/sprint'
-require 'jirify/models/sprint_cell'
-require 'jirify/models/sprint_table'
 require 'jirify/models/project'
+
+require 'jirify/ui/sprint_cell'
+require 'jirify/ui/sprint_table'
 
 require 'jirify/cli/setup'
 require 'jirify/cli/sprint'

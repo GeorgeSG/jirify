@@ -1,12 +1,12 @@
 module Jirify
   module Subcommands
     class Projects < Thor
+      default_task :list
+
       desc 'list', 'List all projects'
       def list
-        puts Jirify::Project.all.map(&:name)
+        Jirify::Project.all.map(&:name).each { |name| say name }
       end
-
-      default_task :list
     end
   end
 end

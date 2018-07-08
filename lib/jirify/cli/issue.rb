@@ -30,7 +30,7 @@ module Jirify
         issues = Jirify::Issue.list_mine(statuses, options[:all])
         issues.each do |issue|
           if options[:key_only]
-            puts issue.key
+            say issue.key
           else
             issue.print Config.always_verbose || options[:verbose]
           end
@@ -53,9 +53,9 @@ module Jirify
         issue = get_issue_or_exit issue_id
 
         if issue.assignee.nil?
-          puts 'Unassigned'.yellow
+          say 'Unassigned'.yellow
         else
-          puts issue.assignee.name
+          say issue.assignee.name
         end
       end
 
@@ -64,11 +64,11 @@ module Jirify
         issue = get_issue_or_exit issue_id
 
         if issue.assignee.nil?
-          puts 'Issue already unassigned'.yellow
+          say 'Issue already unassigned'.yellow
           exit(0)
         end
 
-        puts "Previous assignee: #{issue.assignee.name}. Unassigning..."
+        say "Previous assignee: #{issue.assignee.name}. Unassigning..."
         issue.unassign!
       end
 
@@ -76,7 +76,7 @@ module Jirify
       def take(issue_id)
         issue = get_issue_or_exit issue_id
 
-        puts "Assigning #{issue.key} to #{Config.username}..."
+        say "Assigning #{issue.key} to #{Config.username}..."
         issue.assign_to_me!
       end
 
@@ -88,28 +88,28 @@ module Jirify
       def status(issue_id)
         issue = get_issue_or_exit issue_id
 
-        puts issue.status.name
+        say "Status: #{issue.status.name}"
       end
 
       desc 'transitions [ISSUE]', 'Display available transitions'
       def transitions(issue_id)
         issue = get_issue_or_exit issue_id
 
-        puts 'Available transitions:'
-        puts issue.transitions.names
+        say 'Available transitions:'
+        issue.transitions.names.each { |name| say name }
       end
 
       desc 'transition [ISSUE] [TRANSITION]', 'Manually perform a transition'
       def transition(issue_id, transition_name)
         issue = get_issue_or_exit issue_id
-        transition = issue.transitions.list.find { |t| t.name == transition_name }
+        transition = issue.transitions.find_by_name(transition_name)
 
         if transition.nil?
-          puts "ERROR: Issue can't transition to #{transition_name}".red
+          say "ERROR: Issue can't transition to #{transition_name}".red
           exit(0)
         end
 
-        puts "Transitioning #{issue.key} with #{transition_name}...".green
+        say "Transitioning #{issue.key} with #{transition_name}...".green
         issue.transition! transition
       end
 
@@ -129,10 +129,10 @@ module Jirify
         check_assigned_to_self issue
 
         if issue.blocked?
-          puts 'Unblocking issue...'
+          say 'Unblocking issue...'
           issue.unblock!
         else
-          puts 'Issue wasn\'t blocked anyway :)'.green
+          say 'Issue wasn\'t blocked anyway :)'.green
         end
       end
 
@@ -201,7 +201,7 @@ module Jirify
         issue = Jirify::Issue.find_by_id(issue_id)
 
         if issue.nil?
-          puts 'ERROR: Issue not found'.red
+          say 'ERROR: Issue not found'.red
           exit(0)
         else
           issue
@@ -209,13 +209,13 @@ module Jirify
       end
 
       def check_assigned_to_self(issue)
-        unless issue.mine?
-          exit(0) unless yes? 'WARNING! This issue is not assigned to you!'\
-            ' Are you sure you want to continue? [Y/n]:'.yellow
-        end
+        return if issue.mine?
+
+        exit(0) unless yes? 'WARNING! This issue is not assigned to you!'\
+          ' Are you sure you want to continue? [Y/n]:'.yellow
       end
 
-      def build_issue_statuses(options)
+      def build_issue_statuses(options) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
         if options[:status]
           statuses = [options[:status]]
         else

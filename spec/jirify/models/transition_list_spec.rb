@@ -10,10 +10,12 @@ describe Jirify::TransitionList do # rubocop:disable RSpec/FilePath
       double(JIRA::Resource::Transition, id: 't', name: value)
     end
   end
+
   let(:issue_instance) { instance_double(JIRA::Resource::Issue, id: 'XX-1234') }
 
   before do
     allow(Jirify::Config).to receive(:options).and_return(mock_config)
+    allow(Jirify::Config).to receive(:transitions).and_return(mock_config['transitions'])
     allow_any_instance_of(JIRA::Client).to receive_message_chain(:Transition, :all) { transition_instances }
   end
 

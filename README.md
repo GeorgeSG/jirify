@@ -1,5 +1,7 @@
 # jirify
 [![Gem Version](https://badge.fury.io/rb/jirify.svg)](https://badge.fury.io/rb/jirify)
+[![Build Status](https://travis-ci.org/GeorgeSG/jirify.svg?branch=master)](https://travis-ci.org/GeorgeSG/jirify)
+[![Coverage Status](https://coveralls.io/repos/github/GeorgeSG/jirify/badge.svg?branch=master)](https://coveralls.io/github/GeorgeSG/jirify?branch=master)
 
 A simple ruby gem that helps me work with jira
 

@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'terminal-table', '~> 1.8'
   s.add_runtime_dependency 'thor', '~> 0.20'
 
+  s.add_development_dependency 'coveralls', '~> 0.7', '>= 0.7.1'
   s.add_development_dependency 'guard', '~> 2.14', '>= 2.14.2'
   s.add_development_dependency 'guard-rspec', '~> 4.7', '>= 4.7.3'
   s.add_development_dependency 'rake', '~> 12.1'

@@ -1,0 +1,16 @@
+options:
+  username: test@test.com
+  token: 123abc
+  site: https://test.atlassian.com
+  project: TP
+  filter_by_labels:
+    - label1
+    - label2
+  verbose: true
+  statuses:
+    todo: 'Custom To Do'
+    done: 'Done'
+  transitions:
+    start: 'Custom Start Progress'
+    close: 'Close'
+

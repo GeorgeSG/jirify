@@ -6,17 +6,9 @@ describe Jirify::Config do
   let(:config_dir) { "#{Dir.home}/.jirify" }
   let(:config_file) { "#{Dir.home}/.jirify/.jirify" }
 
-  let(:example_options) do
-    {
-      'username'         => 'test@test.com',
-      'token'            => '123abc',
-      'site'             => 'test.atlassian.com',
-      'project'          => 'TP',
-      'filter_by_labels' => %w[label1 label2],
-      'verbose'          => true,
-      'statuses'         => { 'todo' => 'Custom To Do', 'done' => 'Done' },
-      'transitions'      => { 'start' => 'Custom Start Progress', 'close' => 'Close' }
-    }
+  let(:mock_options) do
+    file = File.join(File.dirname(__dir__), 'mocks/', '.jirify.mock')
+    YAML.load_file(file)['options']
   end
 
   before do
@@ -162,7 +154,7 @@ describe Jirify::Config do
 
   describe 'config option getters' do
     before do
-      allow(config).to receive(:options).and_return(example_options)
+      allow(config).to receive(:options).and_return(mock_options)
     end
 
     describe '::always_verbose' do
@@ -173,7 +165,7 @@ describe Jirify::Config do
 
     describe '::atlassian_url' do
       it 'returns the config site value' do
-        expect(config.atlassian_url).to eq 'test.atlassian.com'
+        expect(config.atlassian_url).to eq 'https://test.atlassian.com'
       end
     end
 
@@ -185,7 +177,7 @@ describe Jirify::Config do
 
     describe '::issue_browse_url' do
       it 'returns the jira issue browse url' do
-        expect(config.issue_browse_url).to eq 'test.atlassian.com/browse/'
+        expect(config.issue_browse_url).to eq 'https://test.atlassian.com/browse/'
       end
     end
 
@@ -194,7 +186,7 @@ describe Jirify::Config do
         expect(config.client_options).to eq(
           username:     'test@test.com',
           password:     '123abc',
-          site:         'test.atlassian.com',
+          site:         'https://test.atlassian.com',
           context_path: '',
           auth_type:    :basic
         )

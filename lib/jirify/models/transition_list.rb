@@ -6,18 +6,16 @@ module Jirify
       @list = list
     end
 
+    def find_by_name(name)
+      @list.find { |transition| transition.name == name }
+    end
+
     def names
       @list.map(&:name)
     end
 
     Config.transitions.keys.each do |transition_name|
       define_method(transition_name.to_sym) { find_by_name transition_name }
-    end
-
-    protected
-
-    def find_by_name(name)
-      @list.find { |transition| transition.name == Config.transitions[name] }
     end
 
     class << self

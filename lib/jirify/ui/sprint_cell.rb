@@ -68,15 +68,9 @@ module Jirify
         bold_key = ColorizedString[key].bold
         return bold_key unless options[:summary]
 
-        key_and_summary = "#{bold_key}: #{summary}"
-
-        if key_and_summary.size <= max_cell_length
-          key_and_summary
-        else
-          row = "#{bold_key}\n"
-          row << wrap(summary.strip, max_cell_length)
-          row
-        end
+        row = "#{bold_key}\n"
+        row << wrap(summary.strip, max_cell_length)
+        row
       end
 
       def assignee_line(max_cell_length)

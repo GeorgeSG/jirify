@@ -24,9 +24,7 @@ module Jirify
     end
 
     def to_s(verbose)
-      if max_cell_length <= key.size
-        raise UI::WindowTooNarrow, 'The terminal window is too narrow.'
-      end
+      raise UI::WindowTooNarrow, 'The terminal window is too narrow.' if max_cell_length <= key.size
 
       verbose ? to_verbose_cell : to_short_cell
     end

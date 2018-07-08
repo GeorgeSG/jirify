@@ -7,7 +7,7 @@ module Jirify
       say Jirify::Sprint.current(Config.always_verbose || options[:verbose],
                                  options[:all_columns],
                                  options[:mine])
-    rescue Jirify::UI::WindowTooNarrow => e
+    rescue Jirify::UI::WindowTooNarrow
       say 'ERROR: Your terminal window is too narrow to print the sprint table!'.red
     end
   end

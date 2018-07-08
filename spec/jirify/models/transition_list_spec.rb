@@ -24,6 +24,11 @@ describe Jirify::TransitionList do # rubocop:disable RSpec/FilePath
       described_class.all(issue_instance)
       expect(call_count).to be 1
     end
+
+    it 'unwraps values as needed' do
+      allow_any_instance_of(JIRA::Client).to receive_message_chain(:Project, :all) { [transition] }
+      expect(transition_list.list.first.id).to eq 't'
+    end
   end
 
   describe '#list' do

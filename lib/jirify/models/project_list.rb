@@ -10,11 +10,11 @@ module Jirify
       end
 
       def keys
-        map &:key
+        map(&:key)
       end
 
       def names
-        map &:name
+        map(&:name)
       end
 
       class << self

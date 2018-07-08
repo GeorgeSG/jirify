@@ -9,12 +9,12 @@ module Jirify
         @issues = issues
       end
 
-      def to_table(all_columns, verbose)
+      def to_table(options)
         grouped_issues = issues.group_by do |issue|
-          all_columns ? issue.status.name : issue.status.statusCategory['name']
+          options[:all_columns] ? issue.status.name : issue.status.statusCategory['name']
         end
 
-        grouped_issues_as_table(grouped_issues, verbose)
+        grouped_issues_as_table(grouped_issues, options)
       end
 
       protected
@@ -38,8 +38,8 @@ module Jirify
         end
       end
 
-      def grouped_issues_as_table(grouped_issues, verbose)
-        transposed = transpose(grouped_issues.values, verbose)
+      def grouped_issues_as_table(grouped_issues, options)
+        transposed = transpose(grouped_issues.values, options)
         return nil if transposed.empty?
 
         Terminal::Table.new(
@@ -49,7 +49,7 @@ module Jirify
         )
       end
 
-      def transpose(grouped_issues, verbose)
+      def transpose(grouped_issues, options)
         col_padding_per_row = grouped_issues.size * 4
         max_cell_length     = (terminal_width - col_padding_per_row) / grouped_issues.size
 
@@ -67,7 +67,7 @@ module Jirify
         transposed.map! do |row|
           row.map do |issue|
             next if issue.nil?
-            SprintCell.new(issue, max_cell_length).to_s(verbose)
+            SprintCell.new(issue, max_cell_length).to_s(options)
           end
         end
 

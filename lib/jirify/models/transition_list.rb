@@ -1,7 +1,6 @@
 module Jirify
   module Models
     class TransitionList < BaseList
-
       def initialize(list)
         @list = list.map { |transition| Transition.new transition }
       end
@@ -11,7 +10,7 @@ module Jirify
       end
 
       def names
-        map &:name
+        map(&:name)
       end
 
       Config.transitions.keys.each do |transition_name|

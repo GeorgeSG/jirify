@@ -55,7 +55,7 @@ module Jirify
         if issue.assignee.nil?
           say 'Unassigned'.yellow
         else
-          say issue.assignee.name
+          say issue.assignee.displayName
         end
       end
 

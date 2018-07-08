@@ -33,7 +33,7 @@ module Jirify
 
         Config.write(options)
 
-        say "Done!"
+        say 'Done!'
         say "If you want to enable bash completion, source #{Config.config_folder}/jirify.bash_completion.sh"
       end
 

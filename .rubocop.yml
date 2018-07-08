@@ -25,3 +25,9 @@ Metrics/ClassLength:
 
 Metrics/AbcSize:
   Enabled: False
+
+RSpec/AnyInstance:
+  Enabled: False
+
+RSpec/MessageChain:
+  Enabled: False

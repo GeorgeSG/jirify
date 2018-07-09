@@ -13,8 +13,8 @@ module Jirify
       duplicate_options = options.dup
       if verbose
         duplicate_options[:assignee] = true
-        duplicate_options[:url] = true
-        duplicate_options[:summary] = true
+        duplicate_options[:url]      = true
+        duplicate_options[:summary]  = true
       end
       say UI::SprintTable.new(issues).to_table(duplicate_options)
     rescue UI::WindowTooNarrow, StandardError

@@ -18,7 +18,7 @@ module Jirify
         raise UI::WindowTooNarrow, 'The terminal window is too narrow.' if options[:max_length] <= key.size
 
         row = ''
-        row << "#{ColorizedString[key].bold}\n"
+        row << "#{ColorizedString[key].bold}"
         row << summary_line(options)  if show_summary?(options)
         row << url_line               if show_url?(options)
         row << assignee_line(options) if show_assignee?(options)
@@ -79,7 +79,7 @@ module Jirify
       end
 
       def summary_line(options)
-        wrap(summary.strip, options[:max_length])
+        "\n#{wrap(summary.strip, options[:max_length])}"
       end
 
       def wrap(string, columns, character = "\n")

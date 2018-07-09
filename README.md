@@ -41,9 +41,9 @@ options:
   - [ ] Test `Models::Transition`, `Models::BaseList` (?).
   - [ ] Test `Config::copy_bash_completion!`.
 - [ ] Refactor Models - `BaseList` doesn't make much sense.
-- [ ] Refactor `SprintCell`:
-  - [ ] It should be a more general `IssueRenderer`.
-  - [ ] Use it for `jira issues describe` with additional option to draw border.
+- [x] Refactor `SprintCell`:
+  - [x] It should be a more general `IssueRenderer`.
+  - [x] Use it for `jira issues describe` with additional option to draw border.
 - [ ] Adjust `jira issues mine` to terminal width.
 - [ ] Add ability to define mapping between custom statuses and custom
 transitions in config.

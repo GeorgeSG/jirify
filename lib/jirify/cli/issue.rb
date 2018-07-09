@@ -47,14 +47,20 @@ module Jirify
       desc 'describe [ISSUE]', 'Describes an issue'
       def describe(issue_id)
         issue = get_issue_or_exit issue_id
-        cell = UI::SprintCell.new(issue, IO.console.winsize[1])
+
+        issue_renderer = UI::IssueRenderer.new(issue)
 
         options = {}
+
         options[:url] = true
         options[:summary] = true
         options[:assignee] = true
-
-        say cell.to_s(options)
+        begin
+          say issue_renderer.as_card(options)
+        rescue UI::WindowTooNarrow
+          say ColorizedString['ERROR: Your terminal window is too narrow to print the sprint table!']
+            .white.on_red.bold
+        end
       end
 
       #-------------------------#
@@ -214,7 +220,7 @@ module Jirify
         issue = Models::Issue.find_by_id(issue_id)
 
         if issue.nil?
-          say ColorizedString['  ERROR: Issue not found  '].white.on_red.bold
+          say ColorizedString['ERROR: Issue not found'].white.on_red.bold
           exit(0)
         else
           issue

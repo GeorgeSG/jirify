@@ -18,7 +18,7 @@ require 'jirify/models/sprint'
 require 'jirify/models/project'
 require 'jirify/models/project_list'
 
-require 'jirify/ui/sprint_cell'
+require 'jirify/ui/issue_renderer'
 require 'jirify/ui/sprint_table'
 
 require 'jirify/cli/setup'

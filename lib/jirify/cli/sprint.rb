@@ -10,15 +10,16 @@ module Jirify
       verbose = Config.always_verbose || options[:verbose]
       issues  = Models::Sprint.issues_in_current_sprint(options[:mine])
 
-      duplicate_options = options.dup
+      modified_options = options.dup
       if verbose
-        duplicate_options[:assignee] = true
-        duplicate_options[:url]      = true
-        duplicate_options[:summary]  = true
+        modified_options[:assignee] = true
+        modified_options[:url]      = true
+        modified_options[:summary]  = true
       end
-      say UI::SprintTable.new(issues).to_table(duplicate_options)
-    rescue UI::WindowTooNarrow, StandardError
-      say ColorizedString['  ERROR: Your terminal window is too narrow to print the sprint table!  ']
+
+      say UI::SprintTable.new(issues).to_table(modified_options)
+    rescue UI::WindowTooNarrow
+      say ColorizedString['ERROR: Your terminal window is too narrow to print the sprint table!']
         .white.on_red.bold
     end
   end

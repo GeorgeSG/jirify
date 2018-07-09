@@ -40,7 +40,7 @@ module Jirify
 
       def verbose=(value)
         unless initialized?
-          puts ColorizedString['  ERROR: You must initialize Jirify first!  '].white.on_red.bold
+          puts ColorizedString['ERROR: You must initialize Jirify first!'].white.on_red.bold
           exit(0)
         end
 
@@ -51,7 +51,7 @@ module Jirify
 
       def options
         unless initialized?
-          puts ColorizedString['  ERROR: You must initialize Jirify first!  '].white.on_red.bold
+          puts ColorizedString['ERROR: You must initialize Jirify first!'].white.on_red.bold
           exit(0)
         end
 

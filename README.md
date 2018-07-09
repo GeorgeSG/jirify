@@ -43,7 +43,9 @@ options:
 - [ ] Refactor Models - `BaseList` doesn't make much sense.
 - [ ] Refactor `SprintCell`:
   - [ ] It should be a more general `IssueRenderer`.
-  - [ ] Use it for `jira i describe` with additional option to draw border.
-- [ ] Adjust `jira i mine` to terminal width.
+  - [ ] Use it for `jira issues describe` with additional option to draw border.
+- [ ] Adjust `jira issues mine` to terminal width.
 - [ ] Add ability to define mapping between custom statuses and custom
 transitions in config.
+- [ ] Add ability to specify custom filters when listing issues (both
+`jira sprint` and `jira issues`)

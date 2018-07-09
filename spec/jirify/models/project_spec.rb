@@ -1,31 +1,11 @@
 require 'spec_helper'
 
-describe Jirify::Models::ProjectList do
-  let(:project_instance) { instance_double(JIRA::Resource::Project, id: 'key') }
+describe Jirify::Models::Project do
+  subject(:project) { described_class.new project_resource }
 
-  before do
-    allow(Jirify::Config).to receive(:options).and_return(mock_config)
-    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Project, :all) { [project_instance] }
-  end
-
-  describe '::all' do
-    it 'invokes the Project API' do # rubocop:disable RSpec/ExampleLength
-      call_count = 0
-      allow_any_instance_of(JIRA::Client).to receive_message_chain(:Project, :all) do
-        call_count += 1
-        []
-      end
-
-      described_class.all
-      expect(call_count).to be 1
-    end
-
-    it 'maps returned projects to instances' do
-      expect(described_class.all.list.first).to be_an(Jirify::Models::Project)
-    end
-  end
+  let(:project_resource) { double(JIRA::Resource::Project, key: 'XX') }
 
   it 'unwraps values as needed' do
-    expect(described_class.all.list.first.id).to eq 'key'
+    expect(project.key).to eq 'XX'
   end
 end

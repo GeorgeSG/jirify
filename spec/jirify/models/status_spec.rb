@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Jirify::Models::Status do
-  let(:status_instances) do
+  let(:status_resources) do
     [
       double(JIRA::Resource::Status, name: 'Custom To Do'),
       double(JIRA::Resource::Status, name: 'Done')
@@ -10,7 +10,7 @@ describe Jirify::Models::Status do
 
   before do
     allow(Jirify::Config).to receive(:options).and_return(mock_config)
-    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Status, :all) { status_instances }
+    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Status, :all) { status_resources }
   end
 
   describe '::all' do

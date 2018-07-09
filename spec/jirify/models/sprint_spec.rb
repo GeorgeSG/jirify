@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe Jirify::Models::Sprint do
-  let(:issue_instance) { double(JIRA::Resource::Issue) }
+  let(:issue_resource) { double(JIRA::Resource::Issue) }
 
   before do
     allow(Jirify::Config).to receive(:options).and_return(mock_config)
-    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Issue, :jql) { [issue_instance] }
+    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Issue, :jql) { [issue_resource] }
   end
 
   describe '::issues_in_current_sprint' do
@@ -20,7 +20,7 @@ describe Jirify::Models::Sprint do
       expect(call_count).to be 1
     end
 
-    it 'maps returned issues to instances' do
+    it 'maps returned issues to instances of Issue models' do
       expect(described_class.issues_in_current_sprint.first).to be_an(Jirify::Models::Issue)
     end
   end

@@ -5,7 +5,7 @@ describe Jirify::Models::ProjectList do
     described_class.all
   end
 
-  let(:project_instances) do
+  let(:project_resources) do
     [
       double(JIRA::Resource::Project, key: 'XX1', name: 'Project 1'),
       double(JIRA::Resource::Project, key: 'XX2', name: 'Project 2')
@@ -14,7 +14,7 @@ describe Jirify::Models::ProjectList do
 
   before do
     allow(Jirify::Config).to receive(:options).and_return(mock_config)
-    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Project, :all) { project_instances }
+    allow_any_instance_of(JIRA::Client).to receive_message_chain(:Project, :all) { project_resources }
   end
 
   describe '::all' do
@@ -30,7 +30,7 @@ describe Jirify::Models::ProjectList do
     end
 
     it 'unwraps values as needed' do
-      allow_any_instance_of(JIRA::Client).to receive_message_chain(:Project, :all) { project_instances }
+      allow_any_instance_of(JIRA::Client).to receive_message_chain(:Project, :all) { project_resources }
       expect(project_list.first.key).to eq 'XX1'
     end
   end
@@ -40,7 +40,7 @@ describe Jirify::Models::ProjectList do
       expect(project_list.count).to be 2
     end
 
-    it 'maps returned projects to instances' do
+    it 'maps returned projects to instances of Project models' do
       expect(project_list.first).to be_a(Jirify::Models::Project)
     end
   end

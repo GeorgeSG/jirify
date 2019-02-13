@@ -45,6 +45,24 @@ describe Jirify::Models::ProjectList do
     end
   end
 
+  describe '#find_by_name' do
+    it 'returns a project by a given name' do
+      expect(project_list.find_by_name('Project 1')).to be_a(Jirify::Models::Project)
+      expect(project_list.find_by_name('Project 1').key).to eq 'XX1'
+      expect(project_list.find_by_name('Project 1').name).to eq 'Project 1'
+    end
+
+    it 'returns nil if the project doesn\'t exist' do
+      expect(project_list.find_by_name('Project 3')).to be_nil
+    end
+  end
+
+  describe '#keys' do
+    it 'returns the keys of all projects' do
+      expect(project_list.keys).to eq ['XX1', 'XX2']
+    end
+  end
+
   describe '#names' do
     it 'returns the names of all projects' do
       expect(project_list.names).to eq ['Project 1', 'Project 2']

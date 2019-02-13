@@ -14,12 +14,6 @@ describe Jirify::Models::Base do
     end
   end
 
-  describe '::project' do
-    it 'provides a project' do
-      expect(described_class.project).to eq 'TP'
-    end
-  end
-
   context 'when invoked with a missing method' do
     it 'tries to send it to the wrapped @entity' do
       entity = instance_double('entity', random_method: 1)

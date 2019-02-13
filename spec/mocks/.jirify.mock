@@ -2,7 +2,9 @@ options:
   username: test@test.com
   token: 123abc
   site: https://test.atlassian.com
-  project: TP
+  projects:
+    - P1
+    - P2
   filter_by_labels:
     - label1
     - label2

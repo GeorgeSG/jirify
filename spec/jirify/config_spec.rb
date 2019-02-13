@@ -117,7 +117,24 @@ describe Jirify::Config do
     end
   end
 
-  describe '::verbose' do
+  describe '::projects=' do
+    it 'exits if the config hasn\'t been initialized' do
+      allow(config).to receive(:initialized?).and_return(false)
+      expect { config.projects = ['p1'] }.to raise_error(SystemExit)
+    end
+
+    it 'overrides the projects list in the config options' do
+      allow(config).to receive(:initialized?).and_return(true)
+      allow(config).to receive(:write)
+      allow(YAML).to receive(:load_file).and_return('options' => { 'opt1' => '1', 'projects' => ['1'] })
+
+      config.projects = ['p1', 'p2']
+
+      expect(config).to have_received(:write).with('options' => { 'opt1' => '1', 'projects' => ['p1', 'p2'] })
+    end
+  end
+
+  describe '::verbose=' do
     it 'exits if the config hasn\'t been initialized' do
       allow(config).to receive(:initialized?).and_return(false)
       expect { config.verbose = true }.to raise_error(SystemExit)
@@ -151,6 +168,12 @@ describe Jirify::Config do
     describe '::always_verbose' do
       it 'returns the config verbose value' do
         expect(config.always_verbose).to be true
+      end
+    end
+
+    describe '::projects' do
+      it 'returns the config projects value' do
+        expect(config.projects).to eq ['P1', 'P2']
       end
     end
 

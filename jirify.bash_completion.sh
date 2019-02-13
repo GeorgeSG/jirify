@@ -29,6 +29,7 @@ _jirify_completions() {
   top_level_commands="help issues projects setup sprint version"
   projects_commands="help list"
   setup_commands="help init bash_completion projects verbose"
+  sprint_commands="help show"
   issues_commands="help assignee block close describe mine open review start status take todo transition transitions unassign unblock"
 
   _compgen_issue_keys() {
@@ -47,6 +48,10 @@ _jirify_completions() {
 
   _compgen_setup() {
     COMPREPLY=($(compgen -W "${setup_commands}" -- ${current}))
+  }
+
+  _compgen_sprint() {
+    COMPREPLY=($(compgen -W "${sprint_commands}" -- ${current}))
   }
 
   _compgen_issues() {
@@ -74,6 +79,10 @@ _jirify_completions() {
         _compgen_setup
         return 0
         ;;
+      s|sprint)
+        _compgen_sprint
+        return 0
+        ;;
       i|issues)
         _compgen_issues
         return 0
@@ -93,6 +102,10 @@ _jirify_completions() {
           ;;
         "setup")
           _compgen_setup
+          return 0
+          ;;
+        s|sprint)
+          _compgen_sprint
           return 0
           ;;
         i|issues)

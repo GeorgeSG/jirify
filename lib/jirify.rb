@@ -38,6 +38,12 @@ module Jirify
     desc 'setup [SUBCOMMAND]', 'Jirify setup tools'
     subcommand 'setup', Subcommands::Setup
 
+    desc 's [SUBCOMMAND]', 'Alias for <jira sprint>'
+    subcommand 's', Subcommands::Sprint
+
+    desc 'sprint [SUBCOMMAND]', 'Work with JIRA Sprints'
+    subcommand 'sprint', Subcommands::Sprint
+
     desc 'i [SUBCOMMAND]', 'Alias for <jira issues>'
     subcommand 'i', Subcommands::Issues
 

@@ -27,7 +27,8 @@ options:
   username: <atlassian username (email)>
   token: <token generated from https://id.atlassian.com>
   site: <JIRA url>
-  project: <JIRA project key>
+  projects:
+    - <JIRA project key>
   filter_by_labels:
     - <label to filter by when displaying sprint>
   verbose: <force jirify to always be verbose>

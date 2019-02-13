@@ -28,7 +28,7 @@ _jirify_completions() {
 
   top_level_commands="help issues projects setup sprint version"
   projects_commands="help list"
-  setup_commands="help init bash_completion verbose"
+  setup_commands="help init bash_completion projects verbose"
   issues_commands="help assignee block close describe mine open review start status take todo transition transitions unassign unblock"
 
   _compgen_issue_keys() {

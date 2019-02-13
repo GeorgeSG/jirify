@@ -86,8 +86,9 @@ module Jirify
         protected
 
         def my_issues_jql(all_issues)
+          project_clause = "project in (#{Config.projects.join(', ')})"
           all_clause = 'AND sprint in openSprints()' unless all_issues
-          "project='#{project}' #{all_clause} AND assignee='#{Config.username}'"
+          "#{project_clause} #{all_clause} AND assignee='#{Config.username}'"
         end
       end
     end

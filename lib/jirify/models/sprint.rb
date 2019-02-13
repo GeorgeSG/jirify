@@ -12,12 +12,14 @@ module Jirify
         def current_sprint_jql(only_mine)
           labels = Config.options['filter_by_labels']
           labels = labels.join(', ') if labels
+          projects = Config.projects.join(', ')
 
+          projects_clause = "project in (#{projects})"
           labels_clause = "AND labels in (#{labels})" if labels
           mine_clause   = "AND assignee='#{Config.username}'" if only_mine
           sprint_clause = 'AND sprint in openSprints()'
 
-          "project='#{project}' #{sprint_clause} #{labels_clause} #{mine_clause}"
+          "#{projects_clause} #{sprint_clause} #{labels_clause} #{mine_clause}"
         end
       end
     end

@@ -38,6 +38,17 @@ module Jirify
         File.write(config_file, config.to_yaml)
       end
 
+      def projects=(value)
+        unless initialized?
+          puts ColorizedString['ERROR: You must initialize Jirify first!'].white.on_red.bold
+          exit(0)
+        end
+
+        config = YAML.load_file(config_file)
+        config['options']['projects'] = value
+        write(config)
+      end
+
       def verbose=(value)
         unless initialized?
           puts ColorizedString['ERROR: You must initialize Jirify first!'].white.on_red.bold
@@ -68,6 +79,10 @@ module Jirify
 
       def username
         options['username']
+      end
+
+      def projects
+        options['projects']
       end
 
       def issue_browse_url

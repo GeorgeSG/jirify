@@ -15,17 +15,23 @@ module Jirify
         username      = ask 'Enter username:'
         token         = ask 'Enter token (generate from https://id.atlassian.com):'
         site          = ask 'Enter JIRA url:'
-        project       = ask 'Enter JIRA Project key:'
+        project       = ask 'Enter a comma-separated list of JIRA Project keys to filter by every time (1 required):'
         filter_labels = ask 'Enter a comma-separated list of labels to filter by every time (optional):'
 
         labels = filter_labels.split ', ' if filter_labels
+        projects = project.split ', ' if project
+
+        if projects.nil? or projects.empty?
+          say "You must enter at least one project key!".red
+          exit(0)
+        end
 
         options = {
           'options' => {
             'username' => username,
             'token'    => token,
             'site'     => site,
-            'project'  => project
+            'projects'  => projects
           }
         }
 
@@ -41,6 +47,25 @@ module Jirify
       method_option :enable, type: :boolean, aliases: '-e', default: false, desc: 'Enable or Disable'
       def verbose
         Config.verbose = options[:enable]
+      end
+
+      desc 'bash_completion', 'Update your bash_completion file when a new version comes out'
+      def bash_completion
+        say "Updating #{Config.config_folder}/jirify.bash_completion.sh ...".blue
+        Config.copy_bash_completion!
+
+        say 'Done! You have to source the file again or open a new shell! :)'.green
+      end
+
+      desc 'projects', 'Set projects to query'
+      method_option :set, type: :array, aliases: '-s', desc: 'List of projects'
+      def projects
+        if options[:set].nil? || options[:set].empty?
+          say 'Pass a list of projects to set with -s. Run "jira setup help projects" for more information.'.red
+          exit(0)
+        end
+
+        Config.projects = options[:set]
       end
 
       desc 'bash_completion', 'Update your bash_completion file when a new version comes out'

@@ -157,7 +157,13 @@ describe Jirify::Config do
       expect { config.options }.to raise_error(SystemExit)
     end
 
-    it 'returns the options as json'
+    it 'returns the options as an object' do
+      allow(config).to receive(:options).and_return(mock_options)
+
+      expect(config.options['projects']).to eq ["P1", "P2"]
+      expect(config.options['transitions']['close']).to eq "Close"
+      expect(config.options['verbose']).to be true
+    end
   end
 
   describe 'config option getters' do
@@ -213,6 +219,14 @@ describe Jirify::Config do
         expect(config.statuses).to include('todo' => 'To Do')
       end
 
+      it 'returns default if there are no statuses in config' do
+        mock_options_without_statuses = mock_options
+        mock_options_without_statuses['statuses'] = []
+        allow(config).to receive(:options).and_return(mock_options_without_statuses)
+
+        expect(config.statuses).to include('todo' => 'To Do')
+      end
+
       it 'returns statuses hash from config' do
         allow(config).to receive(:initialized?).and_return(true)
         expect(config.statuses).to include('todo' => 'Custom To Do')
@@ -222,6 +236,14 @@ describe Jirify::Config do
     describe '::transitions' do
       it 'returns default if jirify wasn\'t initialized' do
         allow(config).to receive(:initialized?).and_return(false)
+        expect(config.transitions).to include('start' => 'Start Progress')
+      end
+
+      it 'returns default if there are no statuses in config' do
+        mock_options_without_transitions = mock_options
+        mock_options_without_transitions['transitions'] = []
+        allow(config).to receive(:options).and_return(mock_options_without_transitions)
+
         expect(config.transitions).to include('start' => 'Start Progress')
       end
 
